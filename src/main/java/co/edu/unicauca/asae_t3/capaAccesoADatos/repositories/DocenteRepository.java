@@ -54,6 +54,7 @@ public class DocenteRepository {
     }
 
     private void cargarDocentes() {
+        System.out.println("Cargando docentes de ejemplo...");
         this.listaDocentes.add(new DocenteEntity(1, "Juan", "Pérez", "juah@example.com", "planta", true));
         this.listaDocentes.add(new DocenteEntity(2, "Pedro", "Gómez", "pedro@example.com", "planta", true));
         this.listaDocentes.add(new DocenteEntity(3, "Ana", "Mora", "ana@example.com", "catedratico", true));

@@ -51,6 +51,7 @@ public class EspacioFisicoRepository {
 	}
 
 	private void cargarEspaciosFisicos() {
+		System.out.println("Cargando espacios físicos de ejemplo...");
 		this.listaEspaciosFisicos.add(new EspacioFisicoEntity(1, "Aula 101", "Aula", 30, "Edificio A", true));
         this.listaEspaciosFisicos.add(new EspacioFisicoEntity(2, "Laboratorio de Computación", "Laboratorio", 20, "Edificio B", true));
         this.listaEspaciosFisicos.add(new EspacioFisicoEntity(3, "Auditorio Principal", "Auditorio", 100, "Edificio C", true));

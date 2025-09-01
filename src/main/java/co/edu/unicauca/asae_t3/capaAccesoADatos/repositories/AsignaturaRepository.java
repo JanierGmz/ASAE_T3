@@ -55,6 +55,7 @@ public class AsignaturaRepository {
 	}
 
 	private void cargarAsignaturas() {
+		System.out.println("Cargando asignaturas de ejemplo...");
 		this.listaAsignaturas.add(new AsignaturaEntity(1, "Matemáticas", "MAT101", 3, 4, "Introducción a las matemáticas", true));
         this.listaAsignaturas.add(new AsignaturaEntity(2, "Física", "FIS101", 4, 4, "Fundamentos de física", true));
         this.listaAsignaturas.add(new AsignaturaEntity(3, "Química", "QUI101", 3, 4, "Conceptos básicos de química", true));

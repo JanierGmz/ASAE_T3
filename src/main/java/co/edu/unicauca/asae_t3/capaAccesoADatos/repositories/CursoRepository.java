@@ -1,5 +1,6 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
+import co.edu.unicauca.asae_t3.capaAccesoADatos.models.AsignaturaEntity;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.CursoEntity;
 
 import java.util.List;
@@ -45,13 +46,22 @@ public class CursoRepository {
 			CursoEntity cursoToUpdate = cursoOpt.get();
 			cursoToUpdate.setNombre(curso.getNombre());
 			cursoToUpdate.setCodigo(curso.getCodigo());
-            cursoToUpdate.setAsignatura(curso.getAsignatura());
+			cursoToUpdate.setAsignatura(curso.getAsignatura());
 			return cursoToUpdate;
 		}
 		return null;
 	}
 
 	private void cargarCursos() {
-        
+		System.out.println("Cargando cursos de ejemplo...");
+		AsignaturaRepository asignaturaRepo = new AsignaturaRepository();
+		List<AsignaturaEntity> asignaturas = new ArrayList<>(asignaturaRepo.findAll().orElse(new ArrayList<>()));
+		if (asignaturas.size() >= 5) {
+			this.listaCursos.add(new CursoEntity(1, "Curso Ing. de Sistemas", "CUR101", asignaturas.get(0)));
+			this.listaCursos.add(new CursoEntity(2, "Curso de Física", "CUR102", asignaturas.get(1)));
+			this.listaCursos.add(new CursoEntity(3, "Curso de Química", "CUR103", asignaturas.get(2)));
+			this.listaCursos.add(new CursoEntity(4, "Curso de Arquitectura", "CUR104", asignaturas.get(3)));
+			this.listaCursos.add(new CursoEntity(5, "Curso de Contaduría", "CUR105", asignaturas.get(4)));
+		}
 	}
 }
