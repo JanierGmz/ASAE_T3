@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class CursoDTOPeticion {
     private String nombre;
     private String codigo;
+    
     private Integer idAsignatura;
 }
