@@ -2,7 +2,6 @@ package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.CursoEntity;
 
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -49,10 +48,10 @@ public class CursoRepository {
 
 	private void cargarCursos() {
 		System.out.println("Cargando cursos de ejemplo...");
-		this.mapaCursos.put(1, new CursoEntity(1, "CUR101", "Curso Ing. de Sistemas", 30));
-		this.mapaCursos.put(2, new CursoEntity(2, "CUR102", "Curso de Física", 25));
-		this.mapaCursos.put(3, new CursoEntity(3, "CUR103", "Curso de Química", 20));
-		this.mapaCursos.put(4, new CursoEntity(4, "CUR104", "Curso de Arquitectura", 35));
-		this.mapaCursos.put(5, new CursoEntity(5, "CUR105", "Curso de Contaduría", 30));
+		this.mapaCursos.put(1, new CursoEntity(1, "CAL01A", "Cálculo I - Grupo A", 30));
+		this.mapaCursos.put(2, new CursoEntity(2, "MEC01A", "Mecánica - Grupo A", 25));
+		this.mapaCursos.put(3, new CursoEntity(3, "POO01A", "Programación Orientada a Objetos - Grupo A", 30));
+		this.mapaCursos.put(4, new CursoEntity(4, "POO01B", "Programación Orientada a Objetos - Grupo B", 35));
+		this.mapaCursos.put(5, new CursoEntity(5, "BD01", "Bases de Datos I - Grupo A", 30));
 	}
 }

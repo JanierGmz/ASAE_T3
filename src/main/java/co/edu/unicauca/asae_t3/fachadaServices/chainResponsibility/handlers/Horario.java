@@ -1,7 +1,8 @@
-package co.edu.unicauca.asae_t3.fachadaServices.handlers;
+package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers;
 
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
-import co.edu.unicauca.asae_t3.fachadaServices.chain.SolicitudFranjaHoraria;
+import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
+
 import java.util.List;
 import java.util.Arrays;
 import java.time.LocalTime;
@@ -20,8 +21,8 @@ public class Horario extends SolicitudFranjaHoraria {
         }
 
         // Validar día: solo de lunes a sábado
-        String dia = solicitudFranjaHoraria.getDia();
-        List<String> diasValidos = Arrays.asList("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+        String dia = solicitudFranjaHoraria.getDia().toLowerCase().trim();
+        List<String> diasValidos = Arrays.asList("lunes", "martes", "miércoles", "miercoles","jueves", "viernes", "sábado", "sabado");
         if (!diasValidos.contains(dia)) {
             return false;
         }

@@ -1,7 +1,7 @@
-package co.edu.unicauca.asae_t3.fachadaServices.handlers;
+package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers;
 
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
-import co.edu.unicauca.asae_t3.fachadaServices.chain.SolicitudFranjaHoraria;
+import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 

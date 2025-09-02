@@ -1,26 +1,37 @@
 package co.edu.unicauca.asae_t3.fachadaServices.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import co.edu.unicauca.asae_t3.capaAccesoADatos.models.*;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.AsignaturaRepository;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.CursoRepository;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.DocenteRepository;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.EspacioFisicoRepository;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.FranjaHorariaRepository;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Service("IDCargaDatosService")
 public class CargaDatosImpl implements ICargaDatos {
 
+    @Autowired
     @Qualifier("IDAsignaturaRepository")
     private AsignaturaRepository asignaturaRepository;
+
+    @Autowired
     @Qualifier("IDCursoRepository")
     private CursoRepository cursoRepository;
+
+    @Autowired
     @Qualifier("IDDocenteRepository")
     private DocenteRepository docenteRepository;
+
+    @Autowired
     @Qualifier("IDEspacioFisicoRepository")
     private EspacioFisicoRepository espacioFisicoRepository;
+
+    @Autowired
     @Qualifier("IDFranjaHorariaRepository")
     private FranjaHorariaRepository franjaHorariaRepository;
 
@@ -30,6 +41,7 @@ public class CargaDatosImpl implements ICargaDatos {
         vincularFranjaHorariaCurso();
         vincularFranjaHorariaEspacioFisico();
         vincularFranjaHorariaDocente();
+        System.out.println("Datos vinculados correctamente.");
     }
 
     private void vincularAsignaturaCursos() {
@@ -38,17 +50,16 @@ public class CargaDatosImpl implements ICargaDatos {
         var cursosOpt = cursoRepository.findAll();
         if (asignaturasOpt.isEmpty() || cursosOpt.isEmpty()) return;
 
-        var asignaturas = new java.util.ArrayList<>(asignaturasOpt.get());
-        var cursos = new java.util.ArrayList<>(cursosOpt.get());
+        var asignaturas = new ArrayList<>(asignaturasOpt.get());
+        var cursos = new ArrayList<>(cursosOpt.get());
 
         // Asignación manual: cada curso se asocia a una asignatura específica
-        // Suponiendo que hay al menos 5 cursos y 5 asignaturas
         if (cursos.size() >= 5 && asignaturas.size() >= 5) {
             cursos.get(0).setAsignatura(asignaturas.get(0)); // Curso 1 -> Asignatura 1
             cursos.get(1).setAsignatura(asignaturas.get(1)); // Curso 2 -> Asignatura 2
             cursos.get(2).setAsignatura(asignaturas.get(2)); // Curso 3 -> Asignatura 3
-            cursos.get(3).setAsignatura(asignaturas.get(3)); // Curso 4 -> Asignatura 4
-            cursos.get(4).setAsignatura(asignaturas.get(4)); // Curso 5 -> Asignatura 5
+            cursos.get(3).setAsignatura(asignaturas.get(2)); // Curso 4 -> Asignatura 3
+            cursos.get(4).setAsignatura(asignaturas.get(3)); // Curso 5 -> Asignatura 4
 
             // Actualizar cursos en el repositorio
             for (int i = 0; i < 5; i++) {
@@ -56,18 +67,31 @@ public class CargaDatosImpl implements ICargaDatos {
             }
 
             // Asignar cursos a cada asignatura manualmente
-            // Ejemplo: Asignatura 1 tiene cursos 1 y 2, Asignatura 2 tiene cursos 3, etc.
-            asignaturas.get(0).setCursos(java.util.Arrays.asList(cursos.get(0), cursos.get(1)));
-            asignaturas.get(1).setCursos(java.util.Arrays.asList(cursos.get(2)));
-            asignaturas.get(2).setCursos(java.util.Arrays.asList(cursos.get(3)));
-            asignaturas.get(3).setCursos(java.util.Arrays.asList(cursos.get(4)));
-            asignaturas.get(4).setCursos(java.util.Arrays.asList(cursos.get(0), cursos.get(2), cursos.get(4)));
+            asignaturas.get(0).setCursos(Arrays.asList(cursos.get(0)));
+            asignaturas.get(1).setCursos(Arrays.asList(cursos.get(1)));
+            asignaturas.get(2).setCursos(Arrays.asList(cursos.get(2), cursos.get(3)));
+            asignaturas.get(3).setCursos(Arrays.asList(cursos.get(4)));
 
             // Actualizar asignaturas en el repositorio
             for (int i = 0; i < 5; i++) {
                 asignaturaRepository.update(asignaturas.get(i).getIdAsignatura(), asignaturas.get(i));
             }
         }
+
+        /**
+        System.out.println("-------------Asignaturas vinculadas a cursos-------------");
+        for (var asignatura : asignaturas) {
+            System.out.println("Asignatura: " + asignatura.getNombre() + " - Cursos: " +
+                    (asignatura.getCursos() != null ? asignatura.getCursos().stream()
+                            .map(CursoEntity -> CursoEntity.getNombre()).reduce((a, b) -> a + ", " + b).orElse("Ninguno")
+                            : "Ninguno"));
+        }
+        System.out.println("-------------Cursos vinculados a asignaturas-------------");
+        for (var curso : cursos) {
+            System.out.println("Curso: " + curso.getNombre() + " - Asignatura: " +
+                    (curso.getAsignatura() != null ? curso.getAsignatura().getNombre() : "Ninguna"));
+        }
+        **/
     }
 
     public void vincularFranjaHorariaCurso(){

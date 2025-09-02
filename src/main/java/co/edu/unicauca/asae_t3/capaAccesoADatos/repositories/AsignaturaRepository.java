@@ -48,11 +48,12 @@ public class AsignaturaRepository {
 	}
 
 	private void cargarAsignaturas() {
-	this.mapaAsignaturas.put(1, new AsignaturaEntity(1, "Matemáticas", "MAT101", 3, 4, "Asignatura básica de matemáticas"));
-	this.mapaAsignaturas.put(2, new AsignaturaEntity(2, "Física", "FIS101", 4, 5, "Asignatura básica de física"));
-	this.mapaAsignaturas.put(3, new AsignaturaEntity(3, "Química", "QUI101", 3, 4, "Asignatura básica de química"));
-	this.mapaAsignaturas.put(4, new AsignaturaEntity(4, "Programación", "PRO101", 4, 6, "Asignatura básica de programación"));
-	this.mapaAsignaturas.put(5, new AsignaturaEntity(5, "Estadística", "EST101", 3, 4, "Asignatura básica de estadística"));
+		System.out.println("Cargando asignaturas de ejemplo...");
+		this.mapaAsignaturas.put(1, new AsignaturaEntity(1, "Cálculo I", "CAL01", 3, 4, "Cálculo diferencial."));
+		this.mapaAsignaturas.put(2, new AsignaturaEntity(2, "Mecánica", "MEC01", 4, 5, "Principios de mecánica clásica."));
+		this.mapaAsignaturas.put(3, new AsignaturaEntity(3, "Programación Orientada a Objetos", "POO01", 3, 4, "Diseño y desarrollo de software orientado a objetos."));
+		this.mapaAsignaturas.put(4, new AsignaturaEntity(4, "Bases de datos I", "BD01", 4, 6, "Administración y diseño de bases de datos."));
+		this.mapaAsignaturas.put(5, new AsignaturaEntity(5, "Estadística", "EST01", 3, 4, "Principios de estadística."));
 	}
 }
 	

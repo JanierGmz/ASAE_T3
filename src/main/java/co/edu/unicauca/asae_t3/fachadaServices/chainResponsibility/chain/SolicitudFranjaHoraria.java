@@ -1,4 +1,4 @@
-package co.edu.unicauca.asae_t3.fachadaServices.chain;
+package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain;
 
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
 import lombok.Data;
