@@ -15,7 +15,7 @@ public class FranjaHorariaDTOPeticion {
     private LocalTime horaInicio;
     private LocalTime horaFin;
 
-    private CursoDTOPeticion curso;
-    private EspacioFisicoDTOPeticion espacioFisico;
-    private List<DocenteDTOPeticion> docentes;
+    private Integer idCurso;
+    private Integer idEspacioFisico;
+    private List<Integer> IdDocentes;
 }

@@ -1,0 +1,35 @@
+package co.edu.unicauca.asae_t3.fachadaServices.handlers;
+
+import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
+import co.edu.unicauca.asae_t3.fachadaServices.chain.SolicitudFranjaHoraria;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.EspacioFisicoRepository;
+
+public class EspacioFisicoInactivo extends SolicitudFranjaHoraria {
+
+    @Qualifier("IDEspacioFisicoRepository")
+    private EspacioFisicoRepository espacioFisicoRepository;
+
+    @Override
+    public boolean procesarSolicitud(FranjaHorariaDTOPeticion solicitudFranjaHoraria) {
+        Integer idEspacioFisico = solicitudFranjaHoraria.getIdEspacioFisico();
+        if (idEspacioFisico != null) {
+            var espacioOpt = espacioFisicoRepository.findById(idEspacioFisico);
+            if (espacioOpt.isPresent()) {
+                var espacio = espacioOpt.get();
+                if (espacio.getEstado() != null && !espacio.getEstado()) {
+                    // Si está inactivo, no se permite la asignación
+                    return false;
+                }
+            }
+        }
+        // Si está activo, sigue con el siguiente manejador en la cadena
+        if (this.getSiguiente() != null) {
+            return this.getSiguiente().procesarSolicitud(solicitudFranjaHoraria);
+        }
+        return true;
+    }
+
+}
