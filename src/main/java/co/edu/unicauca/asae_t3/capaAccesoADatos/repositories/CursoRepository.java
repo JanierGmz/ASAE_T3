@@ -1,10 +1,9 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
-import co.edu.unicauca.asae_t3.capaAccesoADatos.models.AsignaturaEntity;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.CursoEntity;
 
-import java.util.List;
-import java.util.ArrayList;
+
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -13,55 +12,47 @@ import java.util.Collection;
 
 @Repository("IDCursoRepository")
 public class CursoRepository {
-	private List<CursoEntity> listaCursos;
+	private Map<Integer, CursoEntity> mapaCursos;
 
 	public CursoRepository() {
-		this.listaCursos = new ArrayList<>();
+		this.mapaCursos = new java.util.HashMap<>();
 		cargarCursos();
 	}
 
 	public CursoEntity save(CursoEntity curso) {
-		this.listaCursos.add(curso);
+		this.mapaCursos.put(curso.getIdCurso(), curso);
 		return curso;
 	}
 
 	public Optional<CursoEntity> findById(Integer id) {
-		return Optional.ofNullable(this.listaCursos.stream()
-				.filter(curso -> curso.getIdCurso().equals(id))
-				.findFirst()
-				.orElse(null));
+		return Optional.ofNullable(this.mapaCursos.get(id));
 	}
 
 	public Optional<Collection<CursoEntity>> findAll() {
-		return listaCursos.isEmpty() ? Optional.empty() : Optional.of(listaCursos);
+		return mapaCursos.isEmpty() ? Optional.empty() : Optional.of(mapaCursos.values());
 	}
 
-	public void deleteById(Integer id) {
-		this.listaCursos.removeIf(curso -> curso.getIdCurso().equals(id));
-	}
-
-	public CursoEntity update(CursoEntity curso) {
-		Optional<CursoEntity> cursoOpt = findById(curso.getIdCurso());
-		if (cursoOpt.isPresent()) {
-			CursoEntity cursoToUpdate = cursoOpt.get();
-			cursoToUpdate.setNombre(curso.getNombre());
-			cursoToUpdate.setCodigo(curso.getCodigo());
-			cursoToUpdate.setAsignatura(curso.getAsignatura());
-			return cursoToUpdate;
+	public Optional<CursoEntity> update(Integer id, CursoEntity curso) {
+		Optional<CursoEntity> respuesta;
+		if (this.mapaCursos.containsKey(id)) {
+			this.mapaCursos.put(id, curso);
+			respuesta = Optional.of(curso);
+		} else {
+			respuesta = Optional.empty();
 		}
-		return null;
+		return respuesta;
+	}
+
+	public boolean delete(Integer id) {
+		return this.mapaCursos.remove(id) != null;
 	}
 
 	private void cargarCursos() {
 		System.out.println("Cargando cursos de ejemplo...");
-		AsignaturaRepository asignaturaRepo = new AsignaturaRepository();
-		List<AsignaturaEntity> asignaturas = new ArrayList<>(asignaturaRepo.findAll().orElse(new ArrayList<>()));
-		if (asignaturas.size() >= 5) {
-			this.listaCursos.add(new CursoEntity(1, "Curso Ing. de Sistemas", "CUR101", asignaturas.get(0)));
-			this.listaCursos.add(new CursoEntity(2, "Curso de Física", "CUR102", asignaturas.get(1)));
-			this.listaCursos.add(new CursoEntity(3, "Curso de Química", "CUR103", asignaturas.get(2)));
-			this.listaCursos.add(new CursoEntity(4, "Curso de Arquitectura", "CUR104", asignaturas.get(3)));
-			this.listaCursos.add(new CursoEntity(5, "Curso de Contaduría", "CUR105", asignaturas.get(4)));
-		}
+		this.mapaCursos.put(1, new CursoEntity(1, "CUR101", "Curso Ing. de Sistemas", 30));
+		this.mapaCursos.put(2, new CursoEntity(2, "CUR102", "Curso de Física", 25));
+		this.mapaCursos.put(3, new CursoEntity(3, "CUR103", "Curso de Química", 20));
+		this.mapaCursos.put(4, new CursoEntity(4, "CUR104", "Curso de Arquitectura", 35));
+		this.mapaCursos.put(5, new CursoEntity(5, "CUR105", "Curso de Contaduría", 30));
 	}
 }

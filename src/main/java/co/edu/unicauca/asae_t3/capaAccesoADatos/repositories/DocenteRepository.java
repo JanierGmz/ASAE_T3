@@ -2,9 +2,9 @@ package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.DocenteEntity;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -12,53 +12,47 @@ import org.springframework.stereotype.Repository;
 @Repository("IDDocenteRepository")
 public class DocenteRepository {
 
-    private List<DocenteEntity> listaDocentes;
+    private Map<Integer, DocenteEntity> mapaDocentes;
 
     public DocenteRepository() {
-        this.listaDocentes = new ArrayList<>();
+        this.mapaDocentes = new HashMap<>();
         cargarDocentes();
     }
 
     public DocenteEntity save(DocenteEntity docente) {
-        this.listaDocentes.add(docente);
+        this.mapaDocentes.put(docente.getIdDocente(), docente);
         return docente;
     }
 
     public Optional<DocenteEntity> findById(Integer id) {
-        return Optional.ofNullable(this.listaDocentes.stream()
-                .filter(docente -> docente.getIdDocente().equals(id))
-                .findFirst()
-                .orElse(null));
+        return Optional.ofNullable(this.mapaDocentes.get(id));
     }
 
     public Optional<Collection<DocenteEntity>> findAll() {
-        return listaDocentes.isEmpty() ? Optional.empty() : Optional.of(listaDocentes);
+        return mapaDocentes.isEmpty() ? Optional.empty() : Optional.of(mapaDocentes.values());
     }
 
-    public void deleteById(Integer id) {
-        this.listaDocentes.removeIf(docente -> docente.getIdDocente().equals(id));
-    }
-
-    public DocenteEntity update(DocenteEntity docente) {
-        Optional<DocenteEntity> docenteOpt = findById(docente.getIdDocente());
-        if (docenteOpt.isPresent()) {
-            DocenteEntity docenteToUpdate = docenteOpt.get();
-            docenteToUpdate.setNombres(docente.getNombres());
-            docenteToUpdate.setApellidos(docente.getApellidos());
-            docenteToUpdate.setCorreoInstitucional(docente.getCorreoInstitucional());
-            docenteToUpdate.setCategoria(docente.getCategoria());
-            docenteToUpdate.setEstado(docente.getEstado());
-            return docenteToUpdate;
+    public Optional<DocenteEntity> update(Integer id, DocenteEntity docente) {
+        Optional<DocenteEntity> respuesta;
+        if (this.mapaDocentes.containsKey(id)) {
+            this.mapaDocentes.put(id, docente);
+            respuesta = Optional.of(docente);
+        } else {
+            respuesta = Optional.empty();
         }
-        return null;
+        return respuesta;
+    }
+
+    public boolean delete(Integer id) {
+        return this.mapaDocentes.remove(id) != null;
     }
 
     private void cargarDocentes() {
         System.out.println("Cargando docentes de ejemplo...");
-        this.listaDocentes.add(new DocenteEntity(1, "Juan", "Pérez", "juah@example.com", "planta", true));
-        this.listaDocentes.add(new DocenteEntity(2, "Pedro", "Gómez", "pedro@example.com", "planta", true));
-        this.listaDocentes.add(new DocenteEntity(3, "Ana", "Mora", "ana@example.com", "catedratico", true));
-        this.listaDocentes.add(new DocenteEntity(4, "Luis", "García", "luis@example.com", "ocasional", true));
-        this.listaDocentes.add(new DocenteEntity(5, "María", "Rodríguez", "maria@example.com", "planta", true));
+        this.mapaDocentes.put(1, new DocenteEntity(1, "Juan", "Pérez", "juah@example.com", "planta"));
+        this.mapaDocentes.put(2, new DocenteEntity(2, "Pedro", "Gómez", "pedro@example.com", "planta"));
+        this.mapaDocentes.put(3, new DocenteEntity(3, "Ana", "Mora", "ana@example.com", "catedratico"));
+        this.mapaDocentes.put(4, new DocenteEntity(4, "Luis", "García", "luis@example.com", "ocasional"));
+        this.mapaDocentes.put(5, new DocenteEntity(5, "María", "Rodríguez", "maria@example.com", "planta"));
     }
 }

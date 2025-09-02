@@ -2,64 +2,57 @@ package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.AsignaturaEntity;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Collection;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
 @Repository("IDAsignaturaRepository")
 public class AsignaturaRepository {
-	private List<AsignaturaEntity> listaAsignaturas;
+
+	private Map<Integer, AsignaturaEntity> mapaAsignaturas;
 
 	public AsignaturaRepository() {
-		this.listaAsignaturas = new ArrayList<>();
+		this.mapaAsignaturas = new HashMap<>();
 		cargarAsignaturas();
 	}
 
-	public AsignaturaEntity save(AsignaturaEntity asignatura) {
-		this.listaAsignaturas.add(asignatura);
-		return asignatura;
+	public Optional<Collection<AsignaturaEntity>> findAll() {
+		return mapaAsignaturas.isEmpty() ? Optional.empty() : Optional.of(mapaAsignaturas.values());
 	}
 
 	public Optional<AsignaturaEntity> findById(Integer id) {
-		return Optional.ofNullable(this.listaAsignaturas.stream()
-				.filter(asignatura -> asignatura.getIdAsignatura().equals(id))
-				.findFirst()
-				.orElse(null));
+		return Optional.ofNullable(mapaAsignaturas.get(id));
 	}
 
-	public Optional<Collection<AsignaturaEntity>> findAll() {
-		return listaAsignaturas.isEmpty() ? Optional.empty() : Optional.of(listaAsignaturas);
+	public AsignaturaEntity save(AsignaturaEntity asignatura) {
+		this.mapaAsignaturas.put(asignatura.getIdAsignatura(), asignatura);
+		return asignatura;
 	}
 
-	public void deleteById(Integer id) {
-		this.listaAsignaturas.removeIf(asignatura -> asignatura.getIdAsignatura().equals(id));
-	}
-
-	public AsignaturaEntity update(AsignaturaEntity asignatura) {
-		Optional<AsignaturaEntity> asignaturaOpt = findById(asignatura.getIdAsignatura());
-		if (asignaturaOpt.isPresent()) {
-			AsignaturaEntity asignaturaToUpdate = asignaturaOpt.get();
-			asignaturaToUpdate.setNombre(asignatura.getNombre());
-			asignaturaToUpdate.setCodigo(asignatura.getCodigo());
-			asignaturaToUpdate.setNumeroCreditos(asignatura.getNumeroCreditos());
-            asignaturaToUpdate.setHorasSemanales(asignatura.getHorasSemanales());
-            asignaturaToUpdate.setDescripcion(asignatura.getDescripcion());
-			asignaturaToUpdate.setEstado(asignatura.getEstado());
-			return asignaturaToUpdate;
+	public Optional<AsignaturaEntity> update(Integer id, AsignaturaEntity asignatura) {
+		Optional<AsignaturaEntity> respuesta;
+		if (this.mapaAsignaturas.containsKey(id)) {
+			this.mapaAsignaturas.put(id, asignatura);
+			respuesta = Optional.of(asignatura);
+		} else {
+			respuesta = Optional.empty();
 		}
-		return null;
+		return respuesta;
+	}
+
+	public boolean delete(Integer id) {
+		return this.mapaAsignaturas.remove(id) != null;
 	}
 
 	private void cargarAsignaturas() {
-		System.out.println("Cargando asignaturas de ejemplo...");
-		this.listaAsignaturas.add(new AsignaturaEntity(1, "Matemáticas", "MAT101", 3, 4, "Introducción a las matemáticas", true));
-        this.listaAsignaturas.add(new AsignaturaEntity(2, "Física", "FIS101", 4, 4, "Fundamentos de física", true));
-        this.listaAsignaturas.add(new AsignaturaEntity(3, "Química", "QUI101", 3, 4, "Conceptos básicos de química", true));
-        this.listaAsignaturas.add(new AsignaturaEntity(4, "Programación", "PRO101", 4, 4, "Introducción a la programación", true));
-        this.listaAsignaturas.add(new AsignaturaEntity(5, "Estadística", "EST101", 3, 4, "Fundamentos de estadística", true));
+	this.mapaAsignaturas.put(1, new AsignaturaEntity(1, "Matemáticas", "MAT101", 3, 4, "Asignatura básica de matemáticas"));
+	this.mapaAsignaturas.put(2, new AsignaturaEntity(2, "Física", "FIS101", 4, 5, "Asignatura básica de física"));
+	this.mapaAsignaturas.put(3, new AsignaturaEntity(3, "Química", "QUI101", 3, 4, "Asignatura básica de química"));
+	this.mapaAsignaturas.put(4, new AsignaturaEntity(4, "Programación", "PRO101", 4, 6, "Asignatura básica de programación"));
+	this.mapaAsignaturas.put(5, new AsignaturaEntity(5, "Estadística", "EST101", 3, 4, "Asignatura básica de estadística"));
 	}
 }
+	

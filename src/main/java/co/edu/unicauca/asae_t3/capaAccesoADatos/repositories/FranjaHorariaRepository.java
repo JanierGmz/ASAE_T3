@@ -1,74 +1,59 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
-import co.edu.unicauca.asae_t3.capaAccesoADatos.models.*;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.models.FranjaHorariaEntity;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.time.LocalTime;
 
 @Repository("IDFranjaHorariaRepository")
 public class FranjaHorariaRepository {
-	private List<FranjaHorariaEntity> listaFranjasHorarias;
+	private Map<Integer, FranjaHorariaEntity> mapaFranjasHorarias;
 
 	public FranjaHorariaRepository() {
-		this.listaFranjasHorarias = new ArrayList<>();
+		this.mapaFranjasHorarias = new HashMap<>();
 		cargarFranjasHorarias();
 	}
 
 	public FranjaHorariaEntity save(FranjaHorariaEntity franja) {
-		this.listaFranjasHorarias.add(franja);
+		this.mapaFranjasHorarias.put(franja.getIdFranjaHoraria(), franja);
 		return franja;
 	}
 
 	public Optional<FranjaHorariaEntity> findById(Integer id) {
-		return Optional.ofNullable(this.listaFranjasHorarias.stream()
-				.filter(franja -> franja.getIdFranjaHoraria().equals(id))
-				.findFirst()
-				.orElse(null));
+		return Optional.ofNullable(this.mapaFranjasHorarias.get(id));
 	}
 
 	public Optional<Collection<FranjaHorariaEntity>> findAll() {
-		return listaFranjasHorarias.isEmpty() ? Optional.empty() : Optional.of(listaFranjasHorarias);
+		return mapaFranjasHorarias.isEmpty() ? Optional.empty() : Optional.of(mapaFranjasHorarias.values());
 	}
 
-	public void deleteById(Integer id) {
-		this.listaFranjasHorarias.removeIf(franja -> franja.getIdFranjaHoraria().equals(id));
-	}
-
-	public FranjaHorariaEntity update(FranjaHorariaEntity franja) {
-		Optional<FranjaHorariaEntity> franjaOpt = findById(franja.getIdFranjaHoraria());
-		if (franjaOpt.isPresent()) {
-			FranjaHorariaEntity franjaToUpdate = franjaOpt.get();
-			franjaToUpdate.setHoraInicio(franja.getHoraInicio());
-			franjaToUpdate.setHoraFin(franja.getHoraFin());
-			franjaToUpdate.setDia(franja.getDia());
-			franjaToUpdate.setEstado(franja.getEstado());
-			return franjaToUpdate;
+	public Optional<FranjaHorariaEntity> update(Integer id, FranjaHorariaEntity franja) {
+		Optional<FranjaHorariaEntity> respuesta;
+		if (this.mapaFranjasHorarias.containsKey(id)) {
+			this.mapaFranjasHorarias.put(id, franja);
+			respuesta = Optional.of(franja);
+		} else {
+			respuesta = Optional.empty();
 		}
-		return null;
+		return respuesta;
+	}
+
+	public boolean delete(Integer id) {
+		return this.mapaFranjasHorarias.remove(id) != null;
 	}
 
 	private void cargarFranjasHorarias() {
-		CursoRepository cursoRepo = new CursoRepository();
-		EspacioFisicoRepository espacioRepo = new EspacioFisicoRepository();
-		DocenteRepository docenteRepo = new DocenteRepository();
-
-		List<CursoEntity> cursos = new ArrayList<>(cursoRepo.findAll().orElse(new ArrayList<>())) ;
-		List<EspacioFisicoEntity> espacios = new ArrayList<>(espacioRepo.findAll().orElse(new ArrayList<>())) ;
-		List<DocenteEntity> docentes = new ArrayList<>(docenteRepo.findAll().orElse(new ArrayList<>())) ;
-
-        System.out.println("Cargando franjas horarias de ejemplo...");
-
-		if (cursos.size() >= 5 && espacios.size() >= 5 && docentes.size() >= 5) {
-			this.listaFranjasHorarias.add(new FranjaHorariaEntity(1, "08:00", "10:00", "Lunes", true, cursos.get(0), espacios.get(0), docentes.get(0)));
-			this.listaFranjasHorarias.add(new FranjaHorariaEntity(2, "10:00", "12:00", "Martes", true, cursos.get(1), espacios.get(1), docentes.get(1)));
-			this.listaFranjasHorarias.add(new FranjaHorariaEntity(3, "14:00", "16:00", "Miércoles", true, cursos.get(2), espacios.get(2), docentes.get(2)));
-			this.listaFranjasHorarias.add(new FranjaHorariaEntity(4, "16:00", "18:00", "Jueves", true, cursos.get(3), espacios.get(3), docentes.get(3)));
-			this.listaFranjasHorarias.add(new FranjaHorariaEntity(5, "18:00", "20:00", "Viernes", true, cursos.get(4), espacios.get(4), docentes.get(4)));
-		}
+		System.out.println("Cargando franjas horarias de ejemplo...");
+		this.mapaFranjasHorarias.put(1, new FranjaHorariaEntity(1, "Lunes", LocalTime.of(9, 0), LocalTime.of(11, 0)));
+		this.mapaFranjasHorarias.put(2, new FranjaHorariaEntity(2, "Martes", LocalTime.of(7, 0), LocalTime.of(9, 0)));
+		this.mapaFranjasHorarias.put(3, new FranjaHorariaEntity(3, "Miércoles", LocalTime.of(14, 0), LocalTime.of(16, 0)));
+		this.mapaFranjasHorarias.put(4, new FranjaHorariaEntity(4, "Jueves", LocalTime.of(16, 0), LocalTime.of(18, 0)));
+		this.mapaFranjasHorarias.put(5, new FranjaHorariaEntity(5, "Viernes", LocalTime.of(14, 0), LocalTime.of(16, 0)));
 	}
-	}
+}
 

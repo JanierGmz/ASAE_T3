@@ -3,59 +3,54 @@ package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 import org.springframework.stereotype.Repository;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.EspacioFisicoEntity;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository("IDEspacioFisicoRepository")
 public class EspacioFisicoRepository {
-	private List<EspacioFisicoEntity> listaEspaciosFisicos;
+	private Map<Integer, EspacioFisicoEntity> mapaEspaciosFisicos;
 
 	public EspacioFisicoRepository() {
-		this.listaEspaciosFisicos = new ArrayList<>();
+		this.mapaEspaciosFisicos = new HashMap<>();
 		cargarEspaciosFisicos();
 	}
 
 	public EspacioFisicoEntity save(EspacioFisicoEntity espacioFisico) {
-		this.listaEspaciosFisicos.add(espacioFisico);
+		this.mapaEspaciosFisicos.put(espacioFisico.getIdEspacioFisico(), espacioFisico);
 		return espacioFisico;
 	}
 
 	public Optional<EspacioFisicoEntity> findById(Integer id) {
-		return Optional.ofNullable(this.listaEspaciosFisicos.stream()
-				.filter(espacio -> espacio.getIdEspacioFisico().equals(id))
-				.findFirst()
-				.orElse(null));
+		return Optional.ofNullable(this.mapaEspaciosFisicos.get(id));
 	}
 
 	public Optional<Collection<EspacioFisicoEntity>> findAll() {
-		return listaEspaciosFisicos.isEmpty() ? Optional.empty() : Optional.of(listaEspaciosFisicos);
+		return mapaEspaciosFisicos.isEmpty() ? Optional.empty() : Optional.of(mapaEspaciosFisicos.values());
 	}
 
-	public void deleteById(Integer id) {
-		this.listaEspaciosFisicos.removeIf(espacio -> espacio.getIdEspacioFisico().equals(id));
-	}
-
-	public EspacioFisicoEntity update(EspacioFisicoEntity espacioFisico) {
-		Optional<EspacioFisicoEntity> espacioOpt = findById(espacioFisico.getIdEspacioFisico());
-		if (espacioOpt.isPresent()) {
-			EspacioFisicoEntity espacioToUpdate = espacioOpt.get();
-			espacioToUpdate.setNombre(espacioFisico.getNombre());
-			espacioToUpdate.setUbicacion(espacioFisico.getUbicacion());
-			espacioToUpdate.setCapacidad(espacioFisico.getCapacidad());
-			espacioToUpdate.setEstado(espacioFisico.getEstado());
-			return espacioToUpdate;
+	public Optional<EspacioFisicoEntity> update(Integer id, EspacioFisicoEntity espacioFisico) {
+		Optional<EspacioFisicoEntity> respuesta;
+		if (this.mapaEspaciosFisicos.containsKey(id)) {
+			this.mapaEspaciosFisicos.put(id, espacioFisico);
+			respuesta = Optional.of(espacioFisico);
+		} else {
+			respuesta = Optional.empty();
 		}
-		return null;
+		return respuesta;
+	}
+
+	public boolean delete(Integer id) {
+		return this.mapaEspaciosFisicos.remove(id) != null;
 	}
 
 	private void cargarEspaciosFisicos() {
 		System.out.println("Cargando espacios físicos de ejemplo...");
-		this.listaEspaciosFisicos.add(new EspacioFisicoEntity(1, "Aula 101", "Aula", 30, "Edificio A", true));
-        this.listaEspaciosFisicos.add(new EspacioFisicoEntity(2, "Laboratorio de Computación", "Laboratorio", 20, "Edificio B", true));
-        this.listaEspaciosFisicos.add(new EspacioFisicoEntity(3, "Auditorio Principal", "Auditorio", 100, "Edificio C", true));
-        this.listaEspaciosFisicos.add(new EspacioFisicoEntity(4, "Aula 202", "Aula", 25, "Edificio A", true));
-        this.listaEspaciosFisicos.add(new EspacioFisicoEntity(5, "Laboratorio de Física", "Laboratorio", 15, "Edificio D", true));
+		this.mapaEspaciosFisicos.put(1, new EspacioFisicoEntity(1, "Aula 101", "Aula", 30, "Edificio A"));
+		this.mapaEspaciosFisicos.put(2, new EspacioFisicoEntity(2, "Laboratorio de Computación", "Laboratorio", 20, "Edificio B"));
+		this.mapaEspaciosFisicos.put(3, new EspacioFisicoEntity(3, "Auditorio Principal", "Auditorio", 100, "Edificio C"));
+		this.mapaEspaciosFisicos.put(4, new EspacioFisicoEntity(4, "Aula 202", "Aula", 25, "Edificio A"));
+		this.mapaEspaciosFisicos.put(5, new EspacioFisicoEntity(5, "Laboratorio de Física", "Laboratorio", 15, "Edificio D"));
 	}
 }

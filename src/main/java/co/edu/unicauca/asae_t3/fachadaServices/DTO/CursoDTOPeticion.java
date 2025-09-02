@@ -1,5 +1,7 @@
 package co.edu.unicauca.asae_t3.fachadaServices.DTO;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CursoDTOPeticion {
-    private String nombre;
     private String codigo;
-    
-    private Integer idAsignatura;
+    private String nombre;
+    private Integer cantidadCupos;
+
+    private AsignaruraDTOPeticion asignatura;
+    private List<FranjaHorariaDTOPeticion> franjasHorarias;
 }

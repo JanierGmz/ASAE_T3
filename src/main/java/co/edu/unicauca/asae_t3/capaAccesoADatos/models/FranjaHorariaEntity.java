@@ -21,16 +21,12 @@ public class FranjaHorariaEntity {
     private EspacioFisicoEntity espacioFisico;
     private List<DocenteEntity> docentes;
 
-    // Constructor para inicialización rápida (un solo docente)
-    public FranjaHorariaEntity(Integer idFranjaHoraria, String horaInicio, String horaFin, String dia, Boolean estado, CursoEntity curso, EspacioFisicoEntity espacioFisico, DocenteEntity docente) {
+    public FranjaHorariaEntity(Integer idFranjaHoraria, String dia, LocalTime horaInicio, LocalTime horaFin) {
         this.idFranjaHoraria = idFranjaHoraria;
         this.dia = dia;
-        this.horaInicio = java.time.LocalTime.parse(horaInicio);
-        this.horaFin = java.time.LocalTime.parse(horaFin);
-        this.estado = estado;
-        this.curso = curso;
-        this.espacioFisico = espacioFisico;
-        this.docentes = new java.util.ArrayList<>();
-        this.docentes.add(docente);
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.estado = true;
     }
+
 }
