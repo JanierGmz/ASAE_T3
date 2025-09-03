@@ -19,12 +19,24 @@ public class EspacioFisicoEntity {
 
     List<FranjaHorariaEntity> franjasHorarias;
 
-    public EspacioFisicoEntity(Integer idEspacioFisico, String nombre, String tipo, Integer capacidad, String ubicacion) {
+    public EspacioFisicoEntity(Integer idEspacioFisico, String nombre, String tipo, Integer capacidad,
+            String ubicacion) {
         this.idEspacioFisico = idEspacioFisico;
         this.nombre = nombre;
         this.tipo = tipo;
         this.capacidad = capacidad;
         this.ubicacion = ubicacion;
         this.estado = true;
+    }
+
+    //Constructor con estado
+    public EspacioFisicoEntity(Integer idEspacioFisico, String nombre, String tipo, Integer capacidad,
+            String ubicacion, Boolean estado) {
+        this.idEspacioFisico = idEspacioFisico;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.capacidad = capacidad;
+        this.ubicacion = ubicacion;
+        this.estado = estado;
     }
 }

@@ -103,27 +103,34 @@ public class CargaDatosImpl implements ICargaDatos {
         var cursos = new ArrayList<>(cursosOpt.get());
 
         // Vinculación coherente: cada franja se asocia a un curso y cada curso a varias franjas
-        if (franjas.size() >= 5 && cursos.size() >= 5) {
+        if (franjas.size() >= 3 && cursos.size() >= 5) {
             // Asignar franjas a cursos
             franjas.get(0).setCurso(cursos.get(0)); // Franja 1 -> Curso 1
             franjas.get(1).setCurso(cursos.get(1)); // Franja 2 -> Curso 2
             franjas.get(2).setCurso(cursos.get(2)); // Franja 3 -> Curso 3
-            franjas.get(3).setCurso(cursos.get(3)); // Franja 4 -> Curso 4
-            franjas.get(4).setCurso(cursos.get(4)); // Franja 5 -> Curso 5
 
-            // Cada curso tendrá una lista de franjas (ejemplo: curso 1 tiene franjas 1 y 2, curso 2 tiene franja 3, etc.)
-            cursos.get(0).setFranjasHorarias(java.util.Arrays.asList(franjas.get(0), franjas.get(1)));
-            cursos.get(1).setFranjasHorarias(java.util.Arrays.asList(franjas.get(2)));
-            cursos.get(2).setFranjasHorarias(java.util.Arrays.asList(franjas.get(3)));
-            cursos.get(3).setFranjasHorarias(java.util.Arrays.asList(franjas.get(4)));
-            cursos.get(4).setFranjasHorarias(java.util.Arrays.asList(franjas.get(0), franjas.get(2), franjas.get(4)));
+
+            // Cada curso tendrá una lista de franjas
+            cursos.get(0).setFranjasHorarias(Arrays.asList(franjas.get(0)));
+            cursos.get(1).setFranjasHorarias(Arrays.asList(franjas.get(1)));
+            cursos.get(2).setFranjasHorarias(Arrays.asList(franjas.get(2)));
+
 
             // Actualizar cursos y franjas en el repositorio
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 franjaHorariaRepository.update(franjas.get(i).getIdFranjaHoraria(), franjas.get(i));
                 cursoRepository.update(cursos.get(i).getIdCurso(), cursos.get(i));
+                //System.out.println("Franja " + franjas.get(i).getIdFranjaHoraria() + " vinculada a Curso " + cursos.get(i).getNombre());
             }
         }
+        /**
+        System.out.println("-------------Cursos vinculados a franjas horarias-------------");
+        for (var curso : cursos) {
+            System.out.println("Curso: " + curso.getNombre() + " - Franja: " +
+                    (curso.getFranjasHorarias() != null ? curso.getFranjasHorarias().stream()
+                            .map(franja -> franja.getIdFranjaHoraria().toString()).reduce((a, b) -> a + ", " + b).orElse("Ninguno")
+                            : "Ninguno"));
+        }**/
     }
 
     public void vincularFranjaHorariaEspacioFisico(){
@@ -131,30 +138,39 @@ public class CargaDatosImpl implements ICargaDatos {
         var espaciosOpt = espacioFisicoRepository.findAll();
         if (franjasOpt.isEmpty() || espaciosOpt.isEmpty()) return;
 
-        var franjas = new java.util.ArrayList<>(franjasOpt.get());
-        var espacios = new java.util.ArrayList<>(espaciosOpt.get());
+        var franjas = new ArrayList<>(franjasOpt.get());
+        var espacios = new ArrayList<>(espaciosOpt.get());
 
         // Vinculación coherente: cada franja se asocia a un espacio físico y cada espacio a varias franjas
-        if (franjas.size() >= 5 && espacios.size() >= 5) {
-            franjas.get(0).setEspacioFisico(espacios.get(0)); // Franja 1 -> Espacio 1
-            franjas.get(1).setEspacioFisico(espacios.get(1)); // Franja 2 -> Espacio 2
+        if (franjas.size() >= 3 && espacios.size() >= 5) {
+            franjas.get(0).setEspacioFisico(espacios.get(1)); // Franja 1 -> Espacio 2
+            franjas.get(1).setEspacioFisico(espacios.get(3)); // Franja 2 -> Espacio 4
             franjas.get(2).setEspacioFisico(espacios.get(2)); // Franja 3 -> Espacio 3
-            franjas.get(3).setEspacioFisico(espacios.get(3)); // Franja 4 -> Espacio 4
-            franjas.get(4).setEspacioFisico(espacios.get(4)); // Franja 5 -> Espacio 5
 
-            // Cada espacio tendrá una lista de franjas (ejemplo: espacio 1 tiene franjas 1 y 2, espacio 2 tiene franja 3, etc.)
-            espacios.get(0).setFranjasHorarias(java.util.Arrays.asList(franjas.get(0), franjas.get(1)));
-            espacios.get(1).setFranjasHorarias(java.util.Arrays.asList(franjas.get(2)));
-            espacios.get(2).setFranjasHorarias(java.util.Arrays.asList(franjas.get(3)));
-            espacios.get(3).setFranjasHorarias(java.util.Arrays.asList(franjas.get(4)));
-            espacios.get(4).setFranjasHorarias(java.util.Arrays.asList(franjas.get(0), franjas.get(2), franjas.get(4)));
+            // Cada espacio tendrá una lista de franjas
+            espacios.get(1).setFranjasHorarias(Arrays.asList(franjas.get(0)));
+            espacios.get(3).setFranjasHorarias(Arrays.asList(franjas.get(1)));
+            espacios.get(2).setFranjasHorarias(Arrays.asList(franjas.get(2)));
 
             // Actualizar espacios y franjas en el repositorio
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 franjaHorariaRepository.update(franjas.get(i).getIdFranjaHoraria(), franjas.get(i));
                 espacioFisicoRepository.update(espacios.get(i).getIdEspacioFisico(), espacios.get(i));
             }
         }
+        /** 
+        System.out.println("-------------Espacios físicos vinculados a franjas horarias-------------");
+        for (var espacio : espacios) {
+            System.out.println("Espacio: " + espacio.getNombre() + " - Franja: " +
+                    (espacio.getFranjasHorarias() != null ? espacio.getFranjasHorarias().stream()
+                            .map(franja -> franja.getIdFranjaHoraria().toString()).reduce((a, b) -> a + ", " + b).orElse("Ninguno")
+                            : "Ninguno"));
+        }
+        System.out.println("-------------Franjas horarias vinculadas a espacios físicos-------------");
+        for (var franja : franjas) {
+            System.out.println("Franja: " + franja.getIdFranjaHoraria() + " - Espacio: " +
+                    (franja.getEspacioFisico() != null ? franja.getEspacioFisico().getNombre() : "Ninguno"));
+        }*/
     }
 
     public void vincularFranjaHorariaDocente(){
@@ -162,30 +178,41 @@ public class CargaDatosImpl implements ICargaDatos {
         var docentesOpt = docenteRepository.findAll();
         if (franjasOpt.isEmpty() || docentesOpt.isEmpty()) return;
 
-        var franjas = new java.util.ArrayList<>(franjasOpt.get());
-        var docentes = new java.util.ArrayList<>(docentesOpt.get());
+        var franjas = new ArrayList<>(franjasOpt.get());
+        var docentes = new ArrayList<>(docentesOpt.get());
 
         // Vinculación coherente: cada franja se asocia a uno o varios docentes y cada docente a varias franjas
-        if (franjas.size() >= 5 && docentes.size() >= 5) {
-            franjas.get(0).setDocentes(java.util.Arrays.asList(docentes.get(0), docentes.get(1)));
-            franjas.get(1).setDocentes(java.util.Arrays.asList(docentes.get(2)));
-            franjas.get(2).setDocentes(java.util.Arrays.asList(docentes.get(3)));
-            franjas.get(3).setDocentes(java.util.Arrays.asList(docentes.get(4)));
-            franjas.get(4).setDocentes(java.util.Arrays.asList(docentes.get(0), docentes.get(2), docentes.get(4)));
+        if (franjas.size() >= 3 && docentes.size() >= 5) {
+            franjas.get(0).setDocentes(Arrays.asList(docentes.get(0)));
+            franjas.get(1).setDocentes(Arrays.asList(docentes.get(4)));
+            franjas.get(2).setDocentes(Arrays.asList(docentes.get(2)));
 
-            // Cada docente tendrá una lista de franjas (ejemplo: docente 1 tiene franjas 1 y 2, docente 2 tiene franja 3, etc.)
-            docentes.get(0).setFranjasHorarias(java.util.Arrays.asList(franjas.get(0), franjas.get(4)));
-            docentes.get(1).setFranjasHorarias(java.util.Arrays.asList(franjas.get(0)));
-            docentes.get(2).setFranjasHorarias(java.util.Arrays.asList(franjas.get(1), franjas.get(4)));
-            docentes.get(3).setFranjasHorarias(java.util.Arrays.asList(franjas.get(2)));
-            docentes.get(4).setFranjasHorarias(java.util.Arrays.asList(franjas.get(3), franjas.get(4)));
+            // Cada docente tendrá una lista de franjas 
+            docentes.get(0).setFranjasHorarias(Arrays.asList(franjas.get(0)));
+            docentes.get(4).setFranjasHorarias(Arrays.asList(franjas.get(1)));
+            docentes.get(2).setFranjasHorarias(Arrays.asList(franjas.get(2)));
 
             // Actualizar docentes y franjas en el repositorio
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 franjaHorariaRepository.update(franjas.get(i).getIdFranjaHoraria(), franjas.get(i));
                 docenteRepository.update(docentes.get(i).getIdDocente(), docentes.get(i));
             }
         }
+        /**
+        System.out.println("-------------Docentes vinculados a franjas horarias-------------");
+        for (var docente : docentes) {
+            System.out.println("Docente: " + docente.getNombres() + " - Franja: " +
+                    (docente.getFranjasHorarias() != null ? docente.getFranjasHorarias().stream()
+                            .map(franja -> franja.getIdFranjaHoraria().toString()).reduce((a, b) -> a + ", " + b).orElse("Ninguno")
+                            : "Ninguno"));
+        }
+        System.out.println("-------------Franjas horarias vinculadas a docentes-------------");
+        for (var franja : franjas) {
+            System.out.println("Franja: " + franja.getIdFranjaHoraria() + " - Docente: " +
+                    (franja.getDocentes() != null ? franja.getDocentes().stream()
+                            .map(docente -> docente.getIdDocente().toString()).reduce((a, b) -> a + ", " + b).orElse("Ninguno")
+                            : "Ninguno"));
+        }*/
     }
 
 }

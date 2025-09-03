@@ -51,6 +51,6 @@ public class EspacioFisicoRepository {
 		this.mapaEspaciosFisicos.put(2, new EspacioFisicoEntity(2, "Salón 230", "Aula", 20, "FIET"));
 		this.mapaEspaciosFisicos.put(3, new EspacioFisicoEntity(3, "Sala 4", "Laboratorio", 25, "FIET"));
 		this.mapaEspaciosFisicos.put(4, new EspacioFisicoEntity(4, "Salón 227", "Aula", 25, ""));
-		this.mapaEspaciosFisicos.put(5, new EspacioFisicoEntity(5, "Auditorio Gregorio Caicedo", "Auditorio", 50, "F-CIVIL"));
+		this.mapaEspaciosFisicos.put(5, new EspacioFisicoEntity(5, "Auditorio Gregorio Caicedo", "Auditorio", 50, "F-CIVIL", false));
 	}
 }
