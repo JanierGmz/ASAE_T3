@@ -1,6 +1,7 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.models;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class CursoEntity {
     private String nombre;
     private Integer cantidadCupos;
 
+    @JsonBackReference
     private AsignaturaEntity asignatura;
     private List<FranjaHorariaEntity> franjasHorarias;
 

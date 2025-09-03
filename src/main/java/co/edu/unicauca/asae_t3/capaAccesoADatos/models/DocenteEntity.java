@@ -1,6 +1,7 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.models;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class DocenteEntity {
     private String categoria; // planta, catedrático, ocasional
     private Boolean estado;
 
+    @JsonManagedReference
     private List<FranjaHorariaEntity> franjasHorarias;
 
     public DocenteEntity(Integer idDocente, String nombres, String apellidos, String correoInstitucional, String categoria) {

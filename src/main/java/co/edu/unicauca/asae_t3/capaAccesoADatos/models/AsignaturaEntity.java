@@ -1,6 +1,7 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.models;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class AsignaturaEntity {
     private String descripcion;
     private Boolean estado;
 
+    @JsonManagedReference
     private List<CursoEntity> cursos;
     
     public AsignaturaEntity(Integer idAsignatura, String nombre, String codigo, Integer numeroCreditos, Integer horasSemanales, String descripcion) {

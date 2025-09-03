@@ -1,6 +1,7 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.models;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class EspacioFisicoEntity {
     private String ubicacion;
     private Boolean estado;
 
+    @JsonManagedReference
     List<FranjaHorariaEntity> franjasHorarias;
 
     public EspacioFisicoEntity(Integer idEspacioFisico, String nombre, String tipo, Integer capacidad,
