@@ -49,10 +49,10 @@ public class DocenteRepository {
 
     private void cargarDocentes() {
         System.out.println("Cargando docentes de ejemplo...");
-        this.mapaDocentes.put(1, new DocenteEntity(1, "Juan", "Pérez", "juah@example.com", "planta"));
-        this.mapaDocentes.put(2, new DocenteEntity(2, "Pedro", "Gómez", "pedro@example.com", "planta"));
-        this.mapaDocentes.put(3, new DocenteEntity(3, "Ana", "Mora", "ana@example.com", "catedratico"));
-        this.mapaDocentes.put(4, new DocenteEntity(4, "Luis", "García", "luis@example.com", "ocasional"));
-        this.mapaDocentes.put(5, new DocenteEntity(5, "María", "Rodríguez", "maria@example.com", "planta"));
+        this.mapaDocentes.put(1, new DocenteEntity(1, "Hernán", "Cortes", "hcortes@unicauca.edu.co", "planta"));
+        this.mapaDocentes.put(2, new DocenteEntity(2, "Henry", "Laniado", "hlaniado@unicauca.edu.co", "planta"));
+        this.mapaDocentes.put(3, new DocenteEntity(3, "Carlos", "Orozco", "carlosorozco@unicauca.edu.co", "catedratico"));
+        this.mapaDocentes.put(4, new DocenteEntity(4, "Jimena", "Timanaá", "jtimana@unicauca.edu.co", "ocasional"));
+        this.mapaDocentes.put(5, new DocenteEntity(5, "Fabio", "Realpe", "frealpe@unicauca.edu.co", "planta"));
     }
 }

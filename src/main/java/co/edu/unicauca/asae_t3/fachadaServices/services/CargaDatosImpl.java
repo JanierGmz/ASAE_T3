@@ -99,8 +99,8 @@ public class CargaDatosImpl implements ICargaDatos {
         var cursosOpt = cursoRepository.findAll();
         if (franjasOpt.isEmpty() || cursosOpt.isEmpty()) return;
 
-        var franjas = new java.util.ArrayList<>(franjasOpt.get());
-        var cursos = new java.util.ArrayList<>(cursosOpt.get());
+        var franjas = new ArrayList<>(franjasOpt.get());
+        var cursos = new ArrayList<>(cursosOpt.get());
 
         // Vinculación coherente: cada franja se asocia a un curso y cada curso a varias franjas
         if (franjas.size() >= 5 && cursos.size() >= 5) {

@@ -49,11 +49,9 @@ public class FranjaHorariaRepository {
 
 	private void cargarFranjasHorarias() {
 		System.out.println("Cargando franjas horarias de ejemplo...");
-		this.mapaFranjasHorarias.put(1, new FranjaHorariaEntity(1, "Lunes", LocalTime.of(9, 0), LocalTime.of(11, 0)));
-		this.mapaFranjasHorarias.put(2, new FranjaHorariaEntity(2, "Martes", LocalTime.of(7, 0), LocalTime.of(9, 0)));
-		this.mapaFranjasHorarias.put(3, new FranjaHorariaEntity(3, "Miércoles", LocalTime.of(14, 0), LocalTime.of(16, 0)));
-		this.mapaFranjasHorarias.put(4, new FranjaHorariaEntity(4, "Jueves", LocalTime.of(16, 0), LocalTime.of(18, 0)));
-		this.mapaFranjasHorarias.put(5, new FranjaHorariaEntity(5, "Viernes", LocalTime.of(14, 0), LocalTime.of(16, 0)));
+		this.mapaFranjasHorarias.put(1, new FranjaHorariaEntity(1, "lunes", LocalTime.of(9, 0), LocalTime.of(11, 0)));
+		this.mapaFranjasHorarias.put(2, new FranjaHorariaEntity(2, "martes", LocalTime.of(9, 0), LocalTime.of(11, 0)));
+		this.mapaFranjasHorarias.put(3, new FranjaHorariaEntity(3, "lunes", LocalTime.of(11, 0), LocalTime.of(13, 0)));
 	}
 }
 

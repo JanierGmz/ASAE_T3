@@ -47,10 +47,10 @@ public class EspacioFisicoRepository {
 
 	private void cargarEspaciosFisicos() {
 		System.out.println("Cargando espacios físicos de ejemplo...");
-		this.mapaEspaciosFisicos.put(1, new EspacioFisicoEntity(1, "Aula 101", "Aula", 30, "Edificio A"));
-		this.mapaEspaciosFisicos.put(2, new EspacioFisicoEntity(2, "Laboratorio de Computación", "Laboratorio", 20, "Edificio B"));
-		this.mapaEspaciosFisicos.put(3, new EspacioFisicoEntity(3, "Auditorio Principal", "Auditorio", 100, "Edificio C"));
-		this.mapaEspaciosFisicos.put(4, new EspacioFisicoEntity(4, "Aula 202", "Aula", 25, "Edificio A"));
-		this.mapaEspaciosFisicos.put(5, new EspacioFisicoEntity(5, "Laboratorio de Física", "Laboratorio", 15, "Edificio D"));
+		this.mapaEspaciosFisicos.put(1, new EspacioFisicoEntity(1, "Sala 2", "Laboratorio", 25, "FIET"));
+		this.mapaEspaciosFisicos.put(2, new EspacioFisicoEntity(2, "Salón 230", "Aula", 20, "FIET"));
+		this.mapaEspaciosFisicos.put(3, new EspacioFisicoEntity(3, "Sala 4", "Laboratorio", 25, "FIET"));
+		this.mapaEspaciosFisicos.put(4, new EspacioFisicoEntity(4, "Salón 227", "Aula", 25, ""));
+		this.mapaEspaciosFisicos.put(5, new EspacioFisicoEntity(5, "Auditorio Gregorio Caicedo", "Auditorio", 50, "F-CIVIL"));
 	}
 }
