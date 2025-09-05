@@ -6,6 +6,7 @@ import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.Solicit
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class ValidacionChain {
@@ -21,6 +22,7 @@ public class ValidacionChain {
     @Autowired
     private DocenteOcupado docenteOcupadoHandler;
 
+    @PostConstruct
     public void configurarCadena() {
         datosNoNulosHandler.setSiguiente(horarioHandler);
         horarioHandler.setSiguiente(espacioInactivoHandler);

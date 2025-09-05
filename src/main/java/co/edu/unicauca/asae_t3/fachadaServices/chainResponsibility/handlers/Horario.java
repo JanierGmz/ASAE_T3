@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.time.LocalTime;
 
+import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FormatoException;
 @Component
 public class Horario extends SolicitudFranjaHoraria {
     @Override
@@ -21,7 +22,7 @@ public class Horario extends SolicitudFranjaHoraria {
         LocalTime maxHora = LocalTime.of(22, 0);
 
         if (horaInicio.isBefore(minHora) || horaFin.isAfter(maxHora)) {
-            return false;
+            throw new FormatoException("El horario solicitado no es válido.");
         }
 
         // Validar día: solo de lunes a sábado

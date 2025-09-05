@@ -50,8 +50,8 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
         if (franjasEntityOpt.isEmpty()) {
             return List.of();
         }
-        Collection<FranjaHorariaEntity> clientesEntity = franjasEntityOpt.get();
-        return this.modelMapper.map(clientesEntity, new TypeToken<List<FranjaHorariaDTORespuesta>>() {
+        Collection<FranjaHorariaEntity> franjasEntity = franjasEntityOpt.get();
+        return this.modelMapper.map(franjasEntity, new TypeToken<List<FranjaHorariaDTORespuesta>>() {
         }.getType());
     }
 
@@ -67,50 +67,50 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
     @Override
 
     public FranjaHorariaDTORespuesta save(FranjaHorariaDTOPeticion franjaHoraria) {
-    if (!validacionChain.validar(franjaHoraria)) {
-        throw new IllegalArgumentException("Datos de franja horaria no válidos");
-    }
-    CursoEntity curso = cursoRepository.findById(franjaHoraria.getIdCurso())
-        .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
-    EspacioFisicoEntity espacioFisico = espacioFisicoRepository.findById(franjaHoraria.getIdEspacioFisico())
-        .orElseThrow(() -> new IllegalArgumentException("Espacio físico no encontrado"));
-    List<DocenteEntity> docentes = franjaHoraria.getIdDocentes().stream()
-        .map(id -> docenteRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Docente con id " + id + " no encontrado")))
-        .toList();
-    FranjaHorariaEntity franjaHorariaEntity = this.modelMapper.map(franjaHoraria, FranjaHorariaEntity.class);
-    franjaHorariaEntity.setEstado(true);
-    franjaHorariaEntity.setCurso(curso);
-    franjaHorariaEntity.setEspacioFisico(espacioFisico);
-    franjaHorariaEntity.setDocentes(docentes);
-    FranjaHorariaEntity saved = franjaHorariaRepository.save(franjaHorariaEntity);
-    return this.modelMapper.map(saved, FranjaHorariaDTORespuesta.class);
+        if (!validacionChain.validar(franjaHoraria)) {
+            throw new IllegalArgumentException("Datos de franja horaria no válidos");
+        }
+        CursoEntity curso = cursoRepository.findById(franjaHoraria.getIdCurso())
+                .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+        EspacioFisicoEntity espacioFisico = espacioFisicoRepository.findById(franjaHoraria.getIdEspacioFisico())
+                .orElseThrow(() -> new IllegalArgumentException("Espacio físico no encontrado"));
+        List<DocenteEntity> docentes = franjaHoraria.getIdDocentes().stream()
+                .map(id -> docenteRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("Docente con id " + id + " no encontrado")))
+                .toList();
+        FranjaHorariaEntity franjaHorariaEntity = this.modelMapper.map(franjaHoraria, FranjaHorariaEntity.class);
+        franjaHorariaEntity.setEstado(true);
+        franjaHorariaEntity.setCurso(curso);
+        franjaHorariaEntity.setEspacioFisico(espacioFisico);
+        franjaHorariaEntity.setDocentes(docentes);
+        FranjaHorariaEntity saved = franjaHorariaRepository.save(franjaHorariaEntity);
+        return this.modelMapper.map(saved, FranjaHorariaDTORespuesta.class);
     }
 
     @Override
 
     public FranjaHorariaDTORespuesta update(Integer id, FranjaHorariaDTOPeticion franjaHoraria) {
-    if (!validacionChain.validar(franjaHoraria)) {
-        throw new IllegalArgumentException("Datos de franja horaria no válidos");
-    }
-    FranjaHorariaEntity entity = franjaHorariaRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Franja horaria no encontrada"));
-    CursoEntity curso = cursoRepository.findById(franjaHoraria.getIdCurso())
-        .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
-    EspacioFisicoEntity espacioFisico = espacioFisicoRepository.findById(franjaHoraria.getIdEspacioFisico())
-        .orElseThrow(() -> new IllegalArgumentException("Espacio físico no encontrado"));
-    List<DocenteEntity> docentes = franjaHoraria.getIdDocentes().stream()
-        .map(idDoc -> docenteRepository.findById(idDoc)
-            .orElseThrow(() -> new IllegalArgumentException("Docente con id " + idDoc + " no encontrado.")))
-        .toList();
-    entity.setDia(franjaHoraria.getDia());
-    entity.setHoraInicio(franjaHoraria.getHoraInicio());
-    entity.setHoraFin(franjaHoraria.getHoraFin());
-    entity.setCurso(curso);
-    entity.setEspacioFisico(espacioFisico);
-    entity.setDocentes(docentes);
-    FranjaHorariaEntity updated = franjaHorariaRepository.save(entity);
-    return modelMapper.map(updated, FranjaHorariaDTORespuesta.class);
+        if (!validacionChain.validar(franjaHoraria)) {
+            throw new IllegalArgumentException("Datos de franja horaria no válidos");
+        }
+        FranjaHorariaEntity entity = franjaHorariaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Franja horaria no encontrada"));
+        CursoEntity curso = cursoRepository.findById(franjaHoraria.getIdCurso())
+                .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+        EspacioFisicoEntity espacioFisico = espacioFisicoRepository.findById(franjaHoraria.getIdEspacioFisico())
+                .orElseThrow(() -> new IllegalArgumentException("Espacio físico no encontrado"));
+        List<DocenteEntity> docentes = franjaHoraria.getIdDocentes().stream()
+                .map(idDoc -> docenteRepository.findById(idDoc)
+                        .orElseThrow(() -> new IllegalArgumentException("Docente con id " + idDoc + " no encontrado.")))
+                .toList();
+        entity.setDia(franjaHoraria.getDia());
+        entity.setHoraInicio(franjaHoraria.getHoraInicio());
+        entity.setHoraFin(franjaHoraria.getHoraFin());
+        entity.setCurso(curso);
+        entity.setEspacioFisico(espacioFisico);
+        entity.setDocentes(docentes);
+        FranjaHorariaEntity updated = franjaHorariaRepository.save(entity);
+        return modelMapper.map(updated, FranjaHorariaDTORespuesta.class);
     }
 
     @Override

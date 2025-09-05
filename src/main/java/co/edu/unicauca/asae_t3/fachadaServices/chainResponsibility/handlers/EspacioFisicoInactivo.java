@@ -3,6 +3,8 @@ package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers;
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
 import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
 
+import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FormatoException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.EspacioFisicoReposi
 @Component
 public class EspacioFisicoInactivo extends SolicitudFranjaHoraria {
 
+    @Autowired
     @Qualifier("IDEspacioFisicoRepository")
     private EspacioFisicoRepository espacioFisicoRepository;
 
@@ -23,7 +26,7 @@ public class EspacioFisicoInactivo extends SolicitudFranjaHoraria {
                 var espacio = espacioOpt.get();
                 if (espacio.getEstado() != null && !espacio.getEstado()) {
                     // Si está inactivo, no se permite la asignación
-                    return false;
+                    throw new FormatoException("El espacio físico está inactivo.");
                 }
             }
         }
