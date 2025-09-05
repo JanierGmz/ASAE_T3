@@ -4,10 +4,12 @@ import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
 import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.DocenteRepository;
 
-public class DocenteOcupado extends SolicitudFranjaHoraria{
+@Component
+public class DocenteOcupado extends SolicitudFranjaHoraria {
 
     @Qualifier("IDDocenteRepository")
     private DocenteRepository docenteRepository;
@@ -36,6 +38,9 @@ public class DocenteOcupado extends SolicitudFranjaHoraria{
                     }
                 }
             }
+        }
+        if (this.getSiguiente() != null) {
+            return this.getSiguiente().procesarSolicitud(solicitudFranjaHoraria);
         }
         return true;
     }

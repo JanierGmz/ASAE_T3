@@ -12,6 +12,13 @@ import org.springframework.stereotype.Service;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.FranjaHorariaEntity;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.FranjaHorariaRepository;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.CursoRepository;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.EspacioFisicoRepository;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.DocenteRepository;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.models.CursoEntity;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.models.EspacioFisicoEntity;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.models.DocenteEntity;
+import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers.ValidacionChain;
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTORespuesta;
 
@@ -22,52 +29,99 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
     @Qualifier("IDFranjaHorariaRepository")
     private FranjaHorariaRepository franjaHorariaRepository;
 
+    @Autowired
     private ModelMapper modelMapper;
 
-    public FranjaHorariaServiceImpl(FranjaHorariaRepository franjaHorariaRepository, ModelMapper modelMapper) {
-        this.franjaHorariaRepository = franjaHorariaRepository;
-        this.modelMapper = modelMapper;
-    }
+    @Autowired
+    private CursoRepository cursoRepository;
+
+    @Autowired
+    private EspacioFisicoRepository espacioFisicoRepository;
+
+    @Autowired
+    private DocenteRepository docenteRepository;
+
+    @Autowired
+    private ValidacionChain validacionChain;
 
     @Override
     public List<FranjaHorariaDTORespuesta> findAll() {
-        List<FranjaHorariaDTORespuesta> listaRetornar;
         Optional<Collection<FranjaHorariaEntity>> franjasEntityOpt = this.franjaHorariaRepository.findAll();
-        
-        // Si el Optional está vacío, devolvemos una lista vacía
         if (franjasEntityOpt.isEmpty()) {
-            listaRetornar = List.of();
+            return List.of();
         }
-
-        // Convertimos la colección a una lista y la mapeamos a FranjaHorariaDTO
         Collection<FranjaHorariaEntity> clientesEntity = franjasEntityOpt.get();
-        listaRetornar = this.modelMapper.map(clientesEntity, new TypeToken<List<FranjaHorariaDTORespuesta>>() {
+        return this.modelMapper.map(clientesEntity, new TypeToken<List<FranjaHorariaDTORespuesta>>() {
         }.getType());
-        return listaRetornar;
     }
 
     @Override
     public FranjaHorariaDTORespuesta findById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        Optional<FranjaHorariaEntity> entityOpt = franjaHorariaRepository.findById(id);
+        if (entityOpt.isEmpty()) {
+            return null;
+        }
+        return modelMapper.map(entityOpt.get(), FranjaHorariaDTORespuesta.class);
     }
 
     @Override
+
     public FranjaHorariaDTORespuesta save(FranjaHorariaDTOPeticion franjaHoraria) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    if (!validacionChain.validar(franjaHoraria)) {
+        throw new IllegalArgumentException("Datos de franja horaria no válidos");
+    }
+    CursoEntity curso = cursoRepository.findById(franjaHoraria.getIdCurso())
+        .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+    EspacioFisicoEntity espacioFisico = espacioFisicoRepository.findById(franjaHoraria.getIdEspacioFisico())
+        .orElseThrow(() -> new IllegalArgumentException("Espacio físico no encontrado"));
+    List<DocenteEntity> docentes = franjaHoraria.getIdDocentes().stream()
+        .map(id -> docenteRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Docente con id " + id + " no encontrado")))
+        .toList();
+    FranjaHorariaEntity franjaHorariaEntity = this.modelMapper.map(franjaHoraria, FranjaHorariaEntity.class);
+    franjaHorariaEntity.setEstado(true);
+    franjaHorariaEntity.setCurso(curso);
+    franjaHorariaEntity.setEspacioFisico(espacioFisico);
+    franjaHorariaEntity.setDocentes(docentes);
+    FranjaHorariaEntity saved = franjaHorariaRepository.save(franjaHorariaEntity);
+    return this.modelMapper.map(saved, FranjaHorariaDTORespuesta.class);
     }
 
     @Override
+
     public FranjaHorariaDTORespuesta update(Integer id, FranjaHorariaDTOPeticion franjaHoraria) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    if (!validacionChain.validar(franjaHoraria)) {
+        throw new IllegalArgumentException("Datos de franja horaria no válidos");
+    }
+    FranjaHorariaEntity entity = franjaHorariaRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Franja horaria no encontrada"));
+    CursoEntity curso = cursoRepository.findById(franjaHoraria.getIdCurso())
+        .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+    EspacioFisicoEntity espacioFisico = espacioFisicoRepository.findById(franjaHoraria.getIdEspacioFisico())
+        .orElseThrow(() -> new IllegalArgumentException("Espacio físico no encontrado"));
+    List<DocenteEntity> docentes = franjaHoraria.getIdDocentes().stream()
+        .map(idDoc -> docenteRepository.findById(idDoc)
+            .orElseThrow(() -> new IllegalArgumentException("Docente con id " + idDoc + " no encontrado.")))
+        .toList();
+    entity.setDia(franjaHoraria.getDia());
+    entity.setHoraInicio(franjaHoraria.getHoraInicio());
+    entity.setHoraFin(franjaHoraria.getHoraFin());
+    entity.setCurso(curso);
+    entity.setEspacioFisico(espacioFisico);
+    entity.setDocentes(docentes);
+    FranjaHorariaEntity updated = franjaHorariaRepository.save(entity);
+    return modelMapper.map(updated, FranjaHorariaDTORespuesta.class);
     }
 
     @Override
+
     public boolean deleteById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        Optional<FranjaHorariaEntity> entityOpt = franjaHorariaRepository.findById(id);
+        if (entityOpt.isEmpty()) {
+            return false;
+        }
+        franjaHorariaRepository.delete(id);
+        return true;
     }
 
 }
