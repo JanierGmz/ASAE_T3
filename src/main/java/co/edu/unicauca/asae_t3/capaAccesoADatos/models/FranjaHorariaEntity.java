@@ -20,8 +20,10 @@ public class FranjaHorariaEntity {
 
     @JsonBackReference
     private CursoEntity curso;
+
     @JsonBackReference
     private EspacioFisicoEntity espacioFisico;
+
     @JsonBackReference
     private List<DocenteEntity> docentes;
 

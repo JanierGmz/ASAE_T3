@@ -17,5 +17,6 @@ public class FranjaHorariaDTOPeticion {
 
     private Integer idCurso;
     private Integer idEspacioFisico;
+
     private List<Integer> IdDocentes;
 }

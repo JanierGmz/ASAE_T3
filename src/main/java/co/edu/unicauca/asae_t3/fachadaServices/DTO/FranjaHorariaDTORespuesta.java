@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +19,18 @@ public class FranjaHorariaDTORespuesta {
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private Boolean estado;
-
+    
     private CursoDTORespuesta curso;
+    /* 
+    private Integer idCurso;
+    private String nombreCurso;*/
+
+    
     private EspacioFisicoDTORespuesta espacioFisico;
+
+    /*
+    private Integer idEspacioFisico;
+    private String nombreEspacioFisico;*/
+    
     private List<DocenteDTORespuesta> docentes;
 }

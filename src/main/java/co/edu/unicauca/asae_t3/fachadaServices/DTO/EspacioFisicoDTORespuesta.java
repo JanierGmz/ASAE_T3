@@ -1,7 +1,5 @@
 package co.edu.unicauca.asae_t3.fachadaServices.DTO;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +15,5 @@ public class EspacioFisicoDTORespuesta {
     private String ubicacion;
     private Boolean estado; 
 
-    List<FranjaHorariaDTORespuesta> franjasHorarias;
+    //List<FranjaHorariaDTORespuesta> franjasHorarias;
 }

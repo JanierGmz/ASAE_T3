@@ -1,6 +1,5 @@
 package co.edu.unicauca.asae_t3.fachadaServices.DTO;
 
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,5 +14,5 @@ public class DocenteDTOPeticion {
     private String correoInstitucional;
     private String categoria;
 
-    private List<FranjaHorariaDTOPeticion> franjasHorarias;
+    //private List<FranjaHorariaDTOPeticion> franjasHorarias;
 }
