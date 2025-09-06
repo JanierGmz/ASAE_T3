@@ -57,4 +57,10 @@ public class FranjaHorariaRestController {
     public boolean delete(@RequestParam Integer id) {
         return franjaHorariaService.deleteById(id);
     }
+
+    // Listar franjas horarias de un curso específico (usando request param)
+    @GetMapping("/curso")
+    public List<FranjaHorariaDTORespuesta> findByCurso(@RequestParam Integer idCurso) {
+        return franjaHorariaService.findByCurso(idCurso);
+    }
 }

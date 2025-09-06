@@ -149,4 +149,14 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
         return true;
     }
 
+    @Override
+    public List<FranjaHorariaDTORespuesta> findByCurso(Integer idCurso) {
+        Collection<FranjaHorariaEntity> franjasEntity = this.franjaHorariaRepository.findByCurso(idCurso);
+        if (franjasEntity.isEmpty()) {
+            return List.of();
+        }
+        return this.modelMapper.map(franjasEntity, new TypeToken<List<FranjaHorariaDTORespuesta>>() {
+        }.getType());
+    }
+
 }

@@ -62,6 +62,14 @@ public class FranjaHorariaRepository {
 				.collect(java.util.stream.Collectors.toList());
 	}
 
+	public Collection<FranjaHorariaEntity> findByCurso(Integer idCurso) {
+		return this.mapaFranjasHorarias.values().stream()
+				.filter(franja -> franja.getCurso() != null 
+					&& franja.getCurso().getIdCurso().equals(idCurso)
+					&& franja.getEstado() != null && franja.getEstado())
+				.collect(java.util.stream.Collectors.toList());
+	}
+
 	private Integer generateNewId() {
 		return this.mapaFranjasHorarias.keySet().stream()
 				.mapToInt(Integer::intValue)

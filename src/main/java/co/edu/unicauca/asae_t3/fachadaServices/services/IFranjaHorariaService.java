@@ -17,4 +17,6 @@ public interface IFranjaHorariaService {
 
     public boolean deleteById(Integer id);
 
+    public List<FranjaHorariaDTORespuesta> findByCurso(Integer idCurso);
+
 }
