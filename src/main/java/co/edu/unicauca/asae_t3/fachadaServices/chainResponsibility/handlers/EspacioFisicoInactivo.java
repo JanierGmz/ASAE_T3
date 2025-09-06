@@ -17,6 +17,7 @@ public class EspacioFisicoInactivo extends SolicitudFranjaHoraria {
     @Qualifier("IDEspacioFisicoRepository")
     private EspacioFisicoRepository espacioFisicoRepository;
 
+
     @Override
     public boolean procesarSolicitud(FranjaHorariaDTOPeticion solicitudFranjaHoraria) {
         Integer idEspacioFisico = solicitudFranjaHoraria.getIdEspacioFisico();

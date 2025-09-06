@@ -36,7 +36,6 @@ public class DatosNoNulos extends SolicitudFranjaHoraria {
             if (this.getSiguiente() != null) {
                 return this.getSiguiente().procesarSolicitud(solicitudFranjaHoraria);
             }
-            System.out.println("Validación de datos no nulos pasada.");
             return true;
         }
 

@@ -36,12 +36,27 @@ public class CargaDatosImpl implements ICargaDatos {
     private FranjaHorariaRepository franjaHorariaRepository;
 
     @Override
-    public void cargarDatos() {
-        vincularAsignaturaCursos();
-        vincularFranjaHorariaCurso();
-        vincularFranjaHorariaEspacioFisico();
-        vincularFranjaHorariaDocente();
-        System.out.println("Datos vinculados correctamente.");
+    public String cargarDatos() {
+        try {
+            vincularAsignaturaCursos();
+            vincularFranjaHorariaCurso();
+            vincularFranjaHorariaEspacioFisico();
+            vincularFranjaHorariaDocente();
+            
+            String mensaje = "✅ Datos vinculados correctamente. Se han establecido las relaciones entre:\n" +
+                           "• Asignaturas y Cursos\n" +
+                           "• Franjas Horarias y Cursos\n" +
+                           "• Franjas Horarias y Espacios Físicos\n" +
+                           "• Franjas Horarias y Docentes\n\n" +
+                           "El sistema está listo para procesar solicitudes de franjas horarias.";
+            
+            System.out.println("Datos vinculados correctamente.");
+            return mensaje;
+        } catch (Exception e) {
+            String mensajeError = "❌ Error al cargar los datos: " + e.getMessage();
+            System.err.println(mensajeError);
+            return mensajeError;
+        }
     }
 
     private void vincularAsignaturaCursos() {

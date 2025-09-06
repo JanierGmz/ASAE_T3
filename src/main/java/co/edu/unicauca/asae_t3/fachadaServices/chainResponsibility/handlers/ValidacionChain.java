@@ -1,7 +1,6 @@
 package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers;
 
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
-import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ public class ValidacionChain {
         horarioHandler.setSiguiente(espacioInactivoHandler);
         espacioInactivoHandler.setSiguiente(espacioOcupadoHandler);
         espacioOcupadoHandler.setSiguiente(docenteOcupadoHandler);
-        System.out.println("Cadena de responsabilidad configurada correctamente.");
     }
 
     public boolean validar(FranjaHorariaDTOPeticion solicitudFranjaHoraria) {

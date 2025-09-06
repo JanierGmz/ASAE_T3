@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unicauca.asae_t3.fachadaServices.services.ICargaDatos;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
 
 
 
@@ -19,7 +20,8 @@ public class CargaDatosRestController {
     private ICargaDatos cargaDatosService;
 
    @GetMapping()
-    public void cargarDatos() {
-        cargaDatosService.cargarDatos();
+    public ResponseEntity<String> cargarDatos() {
+        String mensaje = cargaDatosService.cargarDatos();
+        return ResponseEntity.ok(mensaje);
     }
 }

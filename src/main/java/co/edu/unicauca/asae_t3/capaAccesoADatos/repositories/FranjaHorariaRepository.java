@@ -1,7 +1,6 @@
 package co.edu.unicauca.asae_t3.capaAccesoADatos.repositories;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.FranjaHorariaEntity;
-
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -45,6 +44,17 @@ public class FranjaHorariaRepository {
 
 	public boolean delete(Integer id) {
 		return this.mapaFranjasHorarias.remove(id) != null;
+	}
+
+	public Collection<FranjaHorariaEntity> findByEspacioFisicoAndDiaAndHorario(
+			Integer idEspacioFisico, String dia, LocalTime horaInicio, LocalTime horaFin) {
+		return this.mapaFranjasHorarias.values().stream()
+				.filter(franja -> franja.getEspacioFisico() != null 
+					&& franja.getEspacioFisico().getIdEspacioFisico().equals(idEspacioFisico)
+					&& franja.getDia().equalsIgnoreCase(dia)
+					&& franja.getEstado() != null && franja.getEstado()
+					&& (horaInicio.isBefore(franja.getHoraFin()) && horaFin.isAfter(franja.getHoraInicio())))
+				.collect(java.util.stream.Collectors.toList());
 	}
 
 	private void cargarFranjasHorarias() {

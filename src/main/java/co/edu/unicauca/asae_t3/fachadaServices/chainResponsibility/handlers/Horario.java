@@ -13,6 +13,8 @@ import java.time.LocalTime;
 import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FormatoException;
 @Component
 public class Horario extends SolicitudFranjaHoraria {
+
+    
     @Override
     public boolean procesarSolicitud(FranjaHorariaDTOPeticion solicitudFranjaHoraria) {
         // Validar hora: solo entre 6 am y 10 pm
@@ -29,7 +31,7 @@ public class Horario extends SolicitudFranjaHoraria {
         String dia = solicitudFranjaHoraria.getDia().toLowerCase().trim();
         List<String> diasValidos = Arrays.asList("lunes", "martes", "miércoles", "miercoles","jueves", "viernes", "sábado", "sabado");
         if (!diasValidos.contains(dia)) {
-            return false;
+            throw new FormatoException("El día solicitado no es válido.");
         }
 
         // Si pasa la validación, sigue con el siguiente manejador

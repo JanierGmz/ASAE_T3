@@ -34,7 +34,8 @@ public class DocenteOcupado extends SolicitudFranjaHoraria {
                                 var finExistente = franja.getHoraFin();
                                 if (!(finNueva.isBefore(inicioExistente) || inicioNueva.isAfter(finExistente))) {
                                     // Docente ocupado
-                                    throw new FormatoException("El docente está ocupado en la franja horaria solicitada.");
+                                    String msj = "El docente " + docente.getNombres() + " " + docente.getApellidos () + " está ocupado en el día " + franja.getDia() + " entre las " + franja.getHoraInicio() + " y " + franja.getHoraFin() + ".";
+                                    throw new FormatoException(msj);
                                 }
                             }
                         }
