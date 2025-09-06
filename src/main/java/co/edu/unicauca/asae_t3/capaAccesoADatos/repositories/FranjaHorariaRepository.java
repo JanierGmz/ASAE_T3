@@ -19,6 +19,10 @@ public class FranjaHorariaRepository {
 	}
 
 	public FranjaHorariaEntity save(FranjaHorariaEntity franja) {
+		// Solo generar nuevo ID si la entidad no tiene ID (es una nueva entidad)
+		if (franja.getIdFranjaHoraria() == null) {
+			franja.setIdFranjaHoraria(generateNewId());
+		}
 		this.mapaFranjasHorarias.put(franja.getIdFranjaHoraria(), franja);
 		return franja;
 	}
@@ -46,6 +50,7 @@ public class FranjaHorariaRepository {
 		return this.mapaFranjasHorarias.remove(id) != null;
 	}
 
+
 	public Collection<FranjaHorariaEntity> findByEspacioFisicoAndDiaAndHorario(
 			Integer idEspacioFisico, String dia, LocalTime horaInicio, LocalTime horaFin) {
 		return this.mapaFranjasHorarias.values().stream()
@@ -55,6 +60,13 @@ public class FranjaHorariaRepository {
 					&& franja.getEstado() != null && franja.getEstado()
 					&& (horaInicio.isBefore(franja.getHoraFin()) && horaFin.isAfter(franja.getHoraInicio())))
 				.collect(java.util.stream.Collectors.toList());
+	}
+
+	private Integer generateNewId() {
+		return this.mapaFranjasHorarias.keySet().stream()
+				.mapToInt(Integer::intValue)
+				.max()
+				.orElse(0) + 1;
 	}
 
 	private void cargarFranjasHorarias() {

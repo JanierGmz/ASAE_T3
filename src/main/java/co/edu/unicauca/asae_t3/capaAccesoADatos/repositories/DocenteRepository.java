@@ -52,7 +52,7 @@ public class DocenteRepository {
         this.mapaDocentes.put(1, new DocenteEntity(1, "Hernán", "Cortes", "hcortes@unicauca.edu.co", "planta"));
         this.mapaDocentes.put(2, new DocenteEntity(2, "Henry", "Laniado", "hlaniado@unicauca.edu.co", "planta"));
         this.mapaDocentes.put(3, new DocenteEntity(3, "Carlos", "Orozco", "carlosorozco@unicauca.edu.co", "catedratico"));
-        this.mapaDocentes.put(4, new DocenteEntity(4, "Jimena", "Timanaá", "jtimana@unicauca.edu.co", "ocasional"));
+        this.mapaDocentes.put(4, new DocenteEntity(4, "Jimena", "Timaná", "jtimana@unicauca.edu.co", "ocasional"));
         this.mapaDocentes.put(5, new DocenteEntity(5, "Fabio", "Realpe", "frealpe@unicauca.edu.co", "planta"));
     }
 }
