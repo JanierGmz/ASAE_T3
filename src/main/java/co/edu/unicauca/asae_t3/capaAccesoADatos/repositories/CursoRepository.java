@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 
 @Repository("IDCursoRepository")
-public class CursoRepository {
+public class CursoRepository implements ICursoRepository {
 	private Map<Integer, CursoEntity> mapaCursos;
 
 	public CursoRepository() {
@@ -18,19 +18,23 @@ public class CursoRepository {
 		cargarCursos();
 	}
 
+	@Override
 	public CursoEntity save(CursoEntity curso) {
 		this.mapaCursos.put(curso.getIdCurso(), curso);
 		return curso;
 	}
 
+	@Override
 	public Optional<CursoEntity> findById(Integer id) {
 		return Optional.ofNullable(this.mapaCursos.get(id));
 	}
 
+	@Override
 	public Optional<Collection<CursoEntity>> findAll() {
 		return mapaCursos.isEmpty() ? Optional.empty() : Optional.of(mapaCursos.values());
 	}
 
+	@Override
 	public Optional<CursoEntity> update(Integer id, CursoEntity curso) {
 		Optional<CursoEntity> respuesta;
 		if (this.mapaCursos.containsKey(id)) {
@@ -42,12 +46,12 @@ public class CursoRepository {
 		return respuesta;
 	}
 
+	@Override
 	public boolean delete(Integer id) {
 		return this.mapaCursos.remove(id) != null;
 	}
 
 	private void cargarCursos() {
-		System.out.println("Cargando cursos de ejemplo...");
 		this.mapaCursos.put(1, new CursoEntity(1, "CAL01A", "Cálculo I - Grupo A", 30));
 		this.mapaCursos.put(2, new CursoEntity(2, "MEC01A", "Mecánica - Grupo A", 25));
 		this.mapaCursos.put(3, new CursoEntity(3, "POO01A", "Programación Orientada a Objetos - Grupo A", 30));

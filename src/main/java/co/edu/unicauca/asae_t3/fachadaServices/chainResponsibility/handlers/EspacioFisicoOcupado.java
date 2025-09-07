@@ -4,7 +4,7 @@ package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers;
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
 import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
 
-import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FormatoException;
+import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FranjaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.EspacioFisicoReposi
 import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.FranjaHorariaRepository;
 
 @Component
-public class EspacioFisicoOcupado extends SolicitudFranjaHoraria{
+public class EspacioFisicoOcupado extends SolicitudFranjaHoraria {
 
     @Autowired
     @Qualifier("IDEspacioFisicoRepository")
@@ -22,7 +22,6 @@ public class EspacioFisicoOcupado extends SolicitudFranjaHoraria{
     @Autowired
     @Qualifier("IDFranjaHorariaRepository")
     private FranjaHorariaRepository franjaHorariaRepository;
-
 
     @Override
     public boolean procesarSolicitud(FranjaHorariaDTOPeticion solicitudFranjaHoraria) {
@@ -34,7 +33,7 @@ public class EspacioFisicoOcupado extends SolicitudFranjaHoraria{
                 var espacio = espacioOpt.get();
                 if (espacio.getEstado() != null && !espacio.getEstado()) {
                     // Si está inactivo, no se permite la asignación
-                    throw new FormatoException("El espacio físico está inactivo.");
+                    throw new FranjaException("El espacio físico está inactivo.");
                 }
 
                 // Verificar que el espacio físico no esté ocupado en el mismo día y horario
@@ -45,13 +44,13 @@ public class EspacioFisicoOcupado extends SolicitudFranjaHoraria{
                         solicitudFranjaHoraria.getHoraFin());
 
                 if (!franjasOcupadas.isEmpty()) {
-                    throw new FormatoException("El espacio físico ya está ocupado en el día " +
+                    throw new FranjaException("El espacio físico ya está ocupado en el día " +
                             solicitudFranjaHoraria.getDia() + " entre las " +
                             solicitudFranjaHoraria.getHoraInicio() + " y " +
                             solicitudFranjaHoraria.getHoraFin() + ".");
                 }
             } else {
-                throw new FormatoException("El espacio físico con ID " + idEspacioFisico + " no existe.");
+                throw new FranjaException("El espacio físico con ID " + idEspacioFisico + " no existe.");
             }
         }
         // Si está activo y disponible, sigue con el siguiente manejador en la cadena

@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository("IDEspacioFisicoRepository")
-public class EspacioFisicoRepository {
+public class EspacioFisicoRepository implements IEspacioFisicoRepository{
 	private Map<Integer, EspacioFisicoEntity> mapaEspaciosFisicos;
 
 	public EspacioFisicoRepository() {
@@ -17,19 +17,23 @@ public class EspacioFisicoRepository {
 		cargarEspaciosFisicos();
 	}
 
+	@Override
 	public EspacioFisicoEntity save(EspacioFisicoEntity espacioFisico) {
 		this.mapaEspaciosFisicos.put(espacioFisico.getIdEspacioFisico(), espacioFisico);
 		return espacioFisico;
 	}
 
+	@Override
 	public Optional<EspacioFisicoEntity> findById(Integer id) {
 		return Optional.ofNullable(this.mapaEspaciosFisicos.get(id));
 	}
 
+	@Override
 	public Optional<Collection<EspacioFisicoEntity>> findAll() {
 		return mapaEspaciosFisicos.isEmpty() ? Optional.empty() : Optional.of(mapaEspaciosFisicos.values());
 	}
 
+	@Override
 	public Optional<EspacioFisicoEntity> update(Integer id, EspacioFisicoEntity espacioFisico) {
 		Optional<EspacioFisicoEntity> respuesta;
 		if (this.mapaEspaciosFisicos.containsKey(id)) {
@@ -41,12 +45,12 @@ public class EspacioFisicoRepository {
 		return respuesta;
 	}
 
+	@Override
 	public boolean delete(Integer id) {
 		return this.mapaEspaciosFisicos.remove(id) != null;
 	}
 
 	private void cargarEspaciosFisicos() {
-		System.out.println("Cargando espacios físicos de ejemplo...");
 		this.mapaEspaciosFisicos.put(1, new EspacioFisicoEntity(1, "Sala 2", "Laboratorio", 25, "FIET"));
 		this.mapaEspaciosFisicos.put(2, new EspacioFisicoEntity(2, "Salón 230", "Aula", 20, "FIET"));
 		this.mapaEspaciosFisicos.put(3, new EspacioFisicoEntity(3, "Sala 4", "Laboratorio", 25, "FIET"));

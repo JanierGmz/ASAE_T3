@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.FranjaHorariaEntity;
-import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.FranjaHorariaRepository;
-import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.CursoRepository;
-import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.EspacioFisicoRepository;
-import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.DocenteRepository;
+import co.edu.unicauca.asae_t3.capaAccesoADatos.repositories.*;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.CursoEntity;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.EspacioFisicoEntity;
 import co.edu.unicauca.asae_t3.capaAccesoADatos.models.DocenteEntity;
@@ -28,19 +25,22 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
 
     @Autowired
     @Qualifier("IDFranjaHorariaRepository")
-    private FranjaHorariaRepository franjaHorariaRepository;
+    private IFranjaHorariaRepository franjaHorariaRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    private CursoRepository cursoRepository;
+    @Qualifier("IDCursoRepository")
+    private ICursoRepository cursoRepository;
 
     @Autowired
-    private EspacioFisicoRepository espacioFisicoRepository;
+    @Qualifier("IDEspacioFisicoRepository")
+    private IEspacioFisicoRepository espacioFisicoRepository;
 
     @Autowired
-    private DocenteRepository docenteRepository;
+    @Qualifier("IDDocenteRepository")
+    private IDocenteRepository docenteRepository;
 
     @Autowired
     private ValidacionChain validacionChain;
@@ -83,7 +83,7 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
 
         // Mapear DTO a Entity
         FranjaHorariaEntity franjaHorariaEntity = this.modelMapper.map(franjaHoraria, FranjaHorariaEntity.class);
-        
+
         // Forzar ID a null para nuevas franjas (evita problema del ModelMapper)
         franjaHorariaEntity.setIdFranjaHoraria(null);
 
@@ -133,11 +133,8 @@ public class FranjaHorariaServiceImpl implements IFranjaHorariaService {
             Optional<FranjaHorariaEntity> optionalFranja = franjaHorariaRepository.update(id, franjaDatosNuevos);
             franjaActualizada = optionalFranja.get();
         }
-
         return modelMapper.map(franjaActualizada, FranjaHorariaDTORespuesta.class);
-
     }
-
 
     @Override
     public boolean deleteById(Integer id) {

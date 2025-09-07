@@ -10,7 +10,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository("IDDocenteRepository")
-public class DocenteRepository {
+public class DocenteRepository implements IDocenteRepository {
 
     private Map<Integer, DocenteEntity> mapaDocentes;
 
@@ -19,19 +19,23 @@ public class DocenteRepository {
         cargarDocentes();
     }
 
+    @Override
     public DocenteEntity save(DocenteEntity docente) {
         this.mapaDocentes.put(docente.getIdDocente(), docente);
         return docente;
     }
 
+    @Override
     public Optional<DocenteEntity> findById(Integer id) {
         return Optional.ofNullable(this.mapaDocentes.get(id));
     }
 
+    @Override
     public Optional<Collection<DocenteEntity>> findAll() {
         return mapaDocentes.isEmpty() ? Optional.empty() : Optional.of(mapaDocentes.values());
     }
 
+    @Override
     public Optional<DocenteEntity> update(Integer id, DocenteEntity docente) {
         Optional<DocenteEntity> respuesta;
         if (this.mapaDocentes.containsKey(id)) {
@@ -43,12 +47,12 @@ public class DocenteRepository {
         return respuesta;
     }
 
+    @Override
     public boolean delete(Integer id) {
         return this.mapaDocentes.remove(id) != null;
     }
 
     private void cargarDocentes() {
-        System.out.println("Cargando docentes de ejemplo...");
         this.mapaDocentes.put(1, new DocenteEntity(1, "Hernán", "Cortes", "hcortes@unicauca.edu.co", "planta"));
         this.mapaDocentes.put(2, new DocenteEntity(2, "Henry", "Laniado", "hlaniado@unicauca.edu.co", "planta"));
         this.mapaDocentes.put(3, new DocenteEntity(3, "Carlos", "Orozco", "carlosorozco@unicauca.edu.co", "catedratico"));

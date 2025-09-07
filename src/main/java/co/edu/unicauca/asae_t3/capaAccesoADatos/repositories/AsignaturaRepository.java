@@ -10,7 +10,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository("IDAsignaturaRepository")
-public class AsignaturaRepository {
+public class AsignaturaRepository implements IAsignaturaRepository{
 
 	private Map<Integer, AsignaturaEntity> mapaAsignaturas;
 
@@ -19,19 +19,23 @@ public class AsignaturaRepository {
 		cargarAsignaturas();
 	}
 
+	@Override
 	public Optional<Collection<AsignaturaEntity>> findAll() {
 		return mapaAsignaturas.isEmpty() ? Optional.empty() : Optional.of(mapaAsignaturas.values());
 	}
 
+	@Override
 	public Optional<AsignaturaEntity> findById(Integer id) {
 		return Optional.ofNullable(mapaAsignaturas.get(id));
 	}
 
+	@Override
 	public AsignaturaEntity save(AsignaturaEntity asignatura) {
 		this.mapaAsignaturas.put(asignatura.getIdAsignatura(), asignatura);
 		return asignatura;
 	}
 
+	@Override
 	public Optional<AsignaturaEntity> update(Integer id, AsignaturaEntity asignatura) {
 		Optional<AsignaturaEntity> respuesta;
 		if (this.mapaAsignaturas.containsKey(id)) {
@@ -43,12 +47,12 @@ public class AsignaturaRepository {
 		return respuesta;
 	}
 
+	@Override
 	public boolean delete(Integer id) {
 		return this.mapaAsignaturas.remove(id) != null;
 	}
 
 	private void cargarAsignaturas() {
-		System.out.println("Cargando asignaturas de ejemplo...");
 		this.mapaAsignaturas.put(1, new AsignaturaEntity(1, "Cálculo I", "CAL01", 3, 4, "Cálculo diferencial."));
 		this.mapaAsignaturas.put(2, new AsignaturaEntity(2, "Mecánica", "MEC01", 4, 5, "Principios de mecánica clásica."));
 		this.mapaAsignaturas.put(3, new AsignaturaEntity(3, "Programación Orientada a Objetos", "POO01", 3, 4, "Diseño y desarrollo de software orientado a objetos."));

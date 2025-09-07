@@ -3,7 +3,7 @@ package co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.handlers;
 import co.edu.unicauca.asae_t3.fachadaServices.DTO.FranjaHorariaDTOPeticion;
 import co.edu.unicauca.asae_t3.fachadaServices.chainResponsibility.chain.SolicitudFranjaHoraria;
 
-import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FormatoException;
+import co.edu.unicauca.asae_t3.fachadaServices.exceptions.FranjaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -34,8 +34,10 @@ public class DocenteOcupado extends SolicitudFranjaHoraria {
                                 var finExistente = franja.getHoraFin();
                                 if (!(finNueva.isBefore(inicioExistente) || inicioNueva.isAfter(finExistente))) {
                                     // Docente ocupado
-                                    String msj = "El docente " + docente.getNombres() + " " + docente.getApellidos () + " está ocupado en el día " + franja.getDia() + " entre las " + franja.getHoraInicio() + " y " + franja.getHoraFin() + ".";
-                                    throw new FormatoException(msj);
+                                    String msj = "El docente " + docente.getNombres() + " " + docente.getApellidos()
+                                            + " está ocupado en el día " + franja.getDia() + " entre las "
+                                            + franja.getHoraInicio() + " y " + franja.getHoraFin() + ".";
+                                    throw new FranjaException(msj);
                                 }
                             }
                         }

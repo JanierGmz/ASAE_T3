@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(FormatoException.class)
-    public ResponseEntity<String> handleFormatoNotFoundException(FormatoException ex) {
+    @ExceptionHandler(FranjaException.class)
+    public ResponseEntity<String> handleFormatoNotFoundException(FranjaException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

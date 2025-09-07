@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.time.LocalTime;
 
 @Repository("IDFranjaHorariaRepository")
-public class FranjaHorariaRepository {
+public class FranjaHorariaRepository implements IFranjaHorariaRepository{
 	private Map<Integer, FranjaHorariaEntity> mapaFranjasHorarias;
 
 	public FranjaHorariaRepository() {
@@ -18,6 +18,7 @@ public class FranjaHorariaRepository {
 		cargarFranjasHorarias();
 	}
 
+	@Override
 	public FranjaHorariaEntity save(FranjaHorariaEntity franja) {
 		// Solo generar nuevo ID si la entidad no tiene ID (es una nueva entidad)
 		if (franja.getIdFranjaHoraria() == null) {
@@ -27,14 +28,17 @@ public class FranjaHorariaRepository {
 		return franja;
 	}
 
+	@Override
 	public Optional<FranjaHorariaEntity> findById(Integer id) {
 		return Optional.ofNullable(this.mapaFranjasHorarias.get(id));
 	}
 
+	@Override
 	public Optional<Collection<FranjaHorariaEntity>> findAll() {
 		return mapaFranjasHorarias.isEmpty() ? Optional.empty() : Optional.of(mapaFranjasHorarias.values());
 	}
 
+	@Override
 	public Optional<FranjaHorariaEntity> update(Integer id, FranjaHorariaEntity franja) {
 		Optional<FranjaHorariaEntity> respuesta;
 		if (this.mapaFranjasHorarias.containsKey(id)) {
@@ -46,11 +50,12 @@ public class FranjaHorariaRepository {
 		return respuesta;
 	}
 
+	@Override
 	public boolean delete(Integer id) {
 		return this.mapaFranjasHorarias.remove(id) != null;
 	}
 
-
+	@Override
 	public Collection<FranjaHorariaEntity> findByEspacioFisicoAndDiaAndHorario(
 			Integer idEspacioFisico, String dia, LocalTime horaInicio, LocalTime horaFin) {
 		return this.mapaFranjasHorarias.values().stream()
@@ -62,6 +67,7 @@ public class FranjaHorariaRepository {
 				.collect(java.util.stream.Collectors.toList());
 	}
 
+	@Override
 	public Collection<FranjaHorariaEntity> findByCurso(Integer idCurso) {
 		return this.mapaFranjasHorarias.values().stream()
 				.filter(franja -> franja.getCurso() != null 
@@ -78,7 +84,6 @@ public class FranjaHorariaRepository {
 	}
 
 	private void cargarFranjasHorarias() {
-		System.out.println("Cargando franjas horarias de ejemplo...");
 		this.mapaFranjasHorarias.put(1, new FranjaHorariaEntity(1, "lunes", LocalTime.of(9, 0), LocalTime.of(11, 0)));
 		this.mapaFranjasHorarias.put(2, new FranjaHorariaEntity(2, "martes", LocalTime.of(9, 0), LocalTime.of(11, 0)));
 		this.mapaFranjasHorarias.put(3, new FranjaHorariaEntity(3, "lunes", LocalTime.of(11, 0), LocalTime.of(13, 0)));
